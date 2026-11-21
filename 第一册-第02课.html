@@ -119,7 +119,16 @@
   }
 
   /* ===== 课时方格导航 + 学习状态 ===== */
-  .book { font-size: 15px; font-weight: 700; margin: 4px 2px 8px; }
+  .book { font-size: 15px; font-weight: 700; margin: 0; }
+  .topbar { display: flex; align-items: center; gap: 10px; margin: 4px 2px 8px; }
+  .seq-btn {
+    flex: 0 0 auto; min-height: 28px; padding: 2px 12px;
+    border: 1px solid var(--ink); border-radius: 999px;
+    background: var(--card); color: var(--ink);
+    font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .seq-btn.on { background: var(--btn); color: var(--btn-ink); }
   .nav { display: flex; align-items: center; gap: 2px; margin: 0 0 12px; }
   .nav-arrow {
     flex: 0 0 28px; width: 28px; height: 34px;
@@ -170,7 +179,10 @@
 </head>
 <body data-page="2">
 <main class="wrap">
-  <p class="book">1000 Words · Book One</p>
+  <div class="topbar">
+    <p class="book">1000 Words · Book One</p>
+    <button class="seq-btn" id="seqBtn" type="button">连读</button>
+  </div>
 
   <div class="nav">
     <button class="nav-arrow" id="navPrev" type="button" aria-label="往前翻">&lsaquo;</button>
@@ -180,20 +192,20 @@
 
     <article class="word-card" aria-label="单词 big">
       <div class="row row-word">
-        <button class="spk" type="button" data-audio="a-big-word" aria-label="播放 big 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="word" data-audio="a-big-word" aria-label="播放 big 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="num">11</span>
         <span class="word">big</span>
         <span class="phon">[bɪɡ]</span>
         <span class="zh">大的；大型的</span>
       </div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-big-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="def" data-audio="a-big-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="pos">adj.</span> <span class="en">large</span> <span class="zh2">大的</span></span>
         <button class="follow-btn" type="button" data-target="large" data-audio="a-big-def" data-panel="p-big-def">跟读</button>
       </div>
       <div class="panel" id="p-big-def" hidden></div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-big-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="sent" data-audio="a-big-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="en">The red apple is <strong>big</strong>.</span> <span class="zh2">这个红苹果很大。</span></span>
         <button class="follow-btn" type="button" data-target="The red apple is big." data-audio="a-big-sent" data-panel="p-big-sent">跟读</button>
       </div>
@@ -202,20 +214,20 @@
 
     <article class="word-card" aria-label="单词 boy">
       <div class="row row-word">
-        <button class="spk" type="button" data-audio="a-boy-word" aria-label="播放 boy 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="word" data-audio="a-boy-word" aria-label="播放 boy 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="num">12</span>
         <span class="word">boy</span>
         <span class="phon">[bɔɪ]</span>
         <span class="zh">男孩</span>
       </div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-boy-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="def" data-audio="a-boy-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="pos">n.</span> <span class="en">a young male</span> <span class="zh2">年轻的男性</span></span>
         <button class="follow-btn" type="button" data-target="a young male" data-audio="a-boy-def" data-panel="p-boy-def">跟读</button>
       </div>
       <div class="panel" id="p-boy-def" hidden></div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-boy-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="sent" data-audio="a-boy-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="en">The <strong>boy</strong> is ten years old.</span> <span class="zh2">这个男孩十岁了。</span></span>
         <button class="follow-btn" type="button" data-target="The boy is ten years old." data-audio="a-boy-sent" data-panel="p-boy-sent">跟读</button>
       </div>
@@ -224,20 +236,20 @@
 
     <article class="word-card" aria-label="单词 child">
       <div class="row row-word">
-        <button class="spk" type="button" data-audio="a-child-word" aria-label="播放 child 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="word" data-audio="a-child-word" aria-label="播放 child 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="num">13</span>
         <span class="word">child</span>
         <span class="phon">[tʃaɪld]</span>
         <span class="zh">孩子；儿童</span>
       </div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-child-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="def" data-audio="a-child-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="pos">n.</span> <span class="en">a young boy or girl</span> <span class="zh2">小男孩或小女孩</span></span>
         <button class="follow-btn" type="button" data-target="a young boy or girl" data-audio="a-child-def" data-panel="p-child-def">跟读</button>
       </div>
       <div class="panel" id="p-child-def" hidden></div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-child-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="sent" data-audio="a-child-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="en">The <strong>child</strong> plays in the sand.</span> <span class="zh2">这个孩子在沙子里玩。</span></span>
         <button class="follow-btn" type="button" data-target="The child plays in the sand." data-audio="a-child-sent" data-panel="p-child-sent">跟读</button>
       </div>
@@ -246,20 +258,20 @@
 
     <article class="word-card" aria-label="单词 have">
       <div class="row row-word">
-        <button class="spk" type="button" data-audio="a-have-word" aria-label="播放 have 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="word" data-audio="a-have-word" aria-label="播放 have 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="num">14</span>
         <span class="word">have</span>
         <span class="phon">[hæv]</span>
         <span class="zh">有；拥有</span>
       </div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-have-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="def" data-audio="a-have-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="pos">v.</span> <span class="en">to own something</span> <span class="zh2">拥有某物</span></span>
         <button class="follow-btn" type="button" data-target="to own something" data-audio="a-have-def" data-panel="p-have-def">跟读</button>
       </div>
       <div class="panel" id="p-have-def" hidden></div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-have-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="sent" data-audio="a-have-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="en">She has a cat.</span> <span class="zh2">她有一只猫。</span></span>
         <button class="follow-btn" type="button" data-target="She has a cat." data-audio="a-have-sent" data-panel="p-have-sent">跟读</button>
       </div>
@@ -268,20 +280,20 @@
 
     <article class="word-card" aria-label="单词 loud">
       <div class="row row-word">
-        <button class="spk" type="button" data-audio="a-loud-word" aria-label="播放 loud 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="word" data-audio="a-loud-word" aria-label="播放 loud 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="num">15</span>
         <span class="word">loud</span>
         <span class="phon">[laʊd]</span>
         <span class="zh">大声的；响亮的</span>
       </div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-loud-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="def" data-audio="a-loud-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="pos">adj.</span> <span class="en">making a lot of sound</span> <span class="zh2">发出很大的声音</span></span>
         <button class="follow-btn" type="button" data-target="making a lot of sound" data-audio="a-loud-def" data-panel="p-loud-def">跟读</button>
       </div>
       <div class="panel" id="p-loud-def" hidden></div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-loud-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="sent" data-audio="a-loud-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="en">The music is too <strong>loud</strong>.</span> <span class="zh2">音乐太吵了。</span></span>
         <button class="follow-btn" type="button" data-target="The music is too loud." data-audio="a-loud-sent" data-panel="p-loud-sent">跟读</button>
       </div>
@@ -290,20 +302,20 @@
 
     <article class="word-card" aria-label="单词 story">
       <div class="row row-word">
-        <button class="spk" type="button" data-audio="a-story-word" aria-label="播放 story 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="word" data-audio="a-story-word" aria-label="播放 story 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="num">16</span>
         <span class="word">story</span>
         <span class="phon">[ˈstɔːri]</span>
         <span class="zh">故事</span>
       </div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-story-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="def" data-audio="a-story-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="pos">n.</span> <span class="en">the events in a book</span> <span class="zh2">书里讲述的事情</span></span>
         <button class="follow-btn" type="button" data-target="the events in a book" data-audio="a-story-def" data-panel="p-story-def">跟读</button>
       </div>
       <div class="panel" id="p-story-def" hidden></div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-story-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="sent" data-audio="a-story-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="en">We read a <strong>story</strong> at bedtime.</span> <span class="zh2">我们睡前读了一个故事。</span></span>
         <button class="follow-btn" type="button" data-target="We read a story at bedtime." data-audio="a-story-sent" data-panel="p-story-sent">跟读</button>
       </div>
@@ -312,20 +324,20 @@
 
     <article class="word-card" aria-label="单词 swim">
       <div class="row row-word">
-        <button class="spk" type="button" data-audio="a-swim-word" aria-label="播放 swim 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="word" data-audio="a-swim-word" aria-label="播放 swim 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="num">17</span>
         <span class="word">swim</span>
         <span class="phon">[swɪm]</span>
         <span class="zh">游泳</span>
       </div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-swim-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="def" data-audio="a-swim-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="pos">v.</span> <span class="en">to move through water using the arms and legs</span> <span class="zh2">用手和腿在水中移动</span></span>
         <button class="follow-btn" type="button" data-target="to move through water using the arms and legs" data-audio="a-swim-def" data-panel="p-swim-def">跟读</button>
       </div>
       <div class="panel" id="p-swim-def" hidden></div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-swim-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="sent" data-audio="a-swim-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="en">He can <strong>swim</strong>.</span> <span class="zh2">他会游泳。</span></span>
         <button class="follow-btn" type="button" data-target="He can swim." data-audio="a-swim-sent" data-panel="p-swim-sent">跟读</button>
       </div>
@@ -334,20 +346,20 @@
 
     <article class="word-card" aria-label="单词 today">
       <div class="row row-word">
-        <button class="spk" type="button" data-audio="a-today-word" aria-label="播放 today 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="word" data-audio="a-today-word" aria-label="播放 today 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="num">18</span>
         <span class="word">today</span>
         <span class="phon">[təˈdeɪ]</span>
         <span class="zh">今天</span>
       </div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-today-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="def" data-audio="a-today-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="pos">adv.</span> <span class="en">on this day</span> <span class="zh2">在这一天</span></span>
         <button class="follow-btn" type="button" data-target="on this day" data-audio="a-today-def" data-panel="p-today-def">跟读</button>
       </div>
       <div class="panel" id="p-today-def" hidden></div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-today-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="sent" data-audio="a-today-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="en">What day is it <strong>today</strong>?</span> <span class="zh2">今天是星期几？</span></span>
         <button class="follow-btn" type="button" data-target="What day is it today?" data-audio="a-today-sent" data-panel="p-today-sent">跟读</button>
       </div>
@@ -356,20 +368,20 @@
 
     <article class="word-card" aria-label="单词 watch">
       <div class="row row-word">
-        <button class="spk" type="button" data-audio="a-watch-word" aria-label="播放 watch 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="word" data-audio="a-watch-word" aria-label="播放 watch 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="num">19</span>
         <span class="word">watch</span>
         <span class="phon">[wɑːtʃ]</span>
         <span class="zh">看；观看</span>
       </div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-watch-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="def" data-audio="a-watch-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="pos">v.</span> <span class="en">to look at something</span> <span class="zh2">看着某物</span></span>
         <button class="follow-btn" type="button" data-target="to look at something" data-audio="a-watch-def" data-panel="p-watch-def">跟读</button>
       </div>
       <div class="panel" id="p-watch-def" hidden></div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-watch-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="sent" data-audio="a-watch-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="en">They <strong>watch</strong> a movie.</span> <span class="zh2">他们看了一部电影。</span></span>
         <button class="follow-btn" type="button" data-target="They watch a movie." data-audio="a-watch-sent" data-panel="p-watch-sent">跟读</button>
       </div>
@@ -378,20 +390,20 @@
 
     <article class="word-card" aria-label="单词 worry">
       <div class="row row-word">
-        <button class="spk" type="button" data-audio="a-worry-word" aria-label="播放 worry 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="word" data-audio="a-worry-word" aria-label="播放 worry 的发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="num">20</span>
         <span class="word">worry</span>
         <span class="phon">[ˈwɜːri]</span>
         <span class="zh">担心；发愁</span>
       </div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-worry-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="def" data-audio="a-worry-def" aria-label="播放释义发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="pos">v.</span> <span class="en">to feel troubled about something</span> <span class="zh2">为某事感到不安</span></span>
         <button class="follow-btn" type="button" data-target="to feel troubled about something" data-audio="a-worry-def" data-panel="p-worry-def">跟读</button>
       </div>
       <div class="panel" id="p-worry-def" hidden></div>
       <div class="row row-line">
-        <button class="spk" type="button" data-audio="a-worry-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <button class="spk" type="button" data-kind="sent" data-audio="a-worry-sent" aria-label="播放例句发音"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
         <span class="line-text"><span class="en">She always <strong>worries</strong> before a test.</span> <span class="zh2">她考试前总是很紧张。</span></span>
         <button class="follow-btn" type="button" data-target="She always worries before a test." data-audio="a-worry-sent" data-panel="p-worry-sent">跟读</button>
       </div>
@@ -714,6 +726,80 @@
     }
   })();
 
+
+  /* ---------- 连读：每条只读第 1 行单词 + 第 3 行例句，跳过释义行 ---------- */
+  var seqBtn = document.getElementById("seqBtn");
+  var seq = { on: false, list: null, i: 0, step: 0, timer: null, el: null };
+  function seqIsBtn(n) {
+    if (!n || !n.className || typeof n.className !== "string") return false;
+    var cls = " " + n.className + " ";
+    return cls.indexOf(" spk ") > -1 || cls.indexOf(" follow-btn ") > -1;
+  }
+  function seqStop() {
+    seq.on = false;
+    if (seq.timer) { clearTimeout(seq.timer); seq.timer = null; }
+    if (seq.el) {
+      try { seq.el.onended = null; seq.el.pause(); seq.el.currentTime = 0; } catch (e) {}
+      seq.el = null;
+    }
+    stopAudio();
+    if (seqBtn) { seqBtn.textContent = "连读"; seqBtn.classList.remove("on"); }
+  }
+  function seqNext() {
+    if (!seq.on) return;
+    if (seq.i >= seq.list.length) { seqStop(); return; }
+    var item = seq.list[seq.i];
+    var id = seq.step === 0 ? item.word : item.sent;
+    var el = document.getElementById(id);
+    if (!el) { seq.i++; seq.step = 0; seqNext(); return; }
+    if (seq.step === 0 && item.card && item.card.getBoundingClientRect) {
+      var r = item.card.getBoundingClientRect();
+      var h = window.innerHeight || 600;
+      if (r.top < 8 || r.bottom > h - 8) {
+        try { item.card.scrollIntoView({ behavior: "smooth", block: "center" }); }
+        catch (e) { try { item.card.scrollIntoView(); } catch (e2) {} }
+      }
+    }
+    stopAudio();
+    seq.el = el;
+    var spk = document.querySelector('[data-audio="' + id + '"]');
+    currentAudio = el; currentBtn = spk || null;
+    if (spk) spk.classList.add("playing");
+    el.onended = function () {
+      el.onended = null;
+      if (!seq.on) return;
+      if (seq.step === 0) { seq.step = 1; seq.timer = setTimeout(seqNext, 320); }
+      else { seq.step = 0; seq.i++; seq.timer = setTimeout(seqNext, 460); }
+    };
+    try { el.currentTime = 0; } catch (e) {}
+    var pr = el.play();
+    if (pr && pr.catch) pr.catch(function () { seqStop(); });
+  }
+  if (seqBtn) {
+    seqBtn.addEventListener("click", function () {
+      if (seq.on) { seqStop(); return; }
+      var out = [], cards = document.querySelectorAll(".word-card");
+      for (var i = 0; i < cards.length; i++) {
+        var w = cards[i].querySelector('[data-kind="word"]');
+        var s = cards[i].querySelector('[data-kind="sent"]');
+        if (w && s) out.push({ word: w.getAttribute("data-audio"), sent: s.getAttribute("data-audio"), card: cards[i] });
+      }
+      if (!out.length) return;
+      seq.list = out; seq.i = 0; seq.step = 0; seq.on = true;
+      seqBtn.textContent = "停止";
+      seqBtn.classList.add("on");
+      seqNext();
+    });
+  }
+  /* 点别的喇叭或跟读时先停连读（捕获阶段，早于按钮自己的处理） */
+  document.addEventListener("click", function (e) {
+    if (!seq.on) return;
+    var n = e.target;
+    while (n && n !== document.body) {
+      if (seqIsBtn(n)) { seqStop(); return; }
+      n = n.parentNode;
+    }
+  }, true);
 })();
 
 </script>
