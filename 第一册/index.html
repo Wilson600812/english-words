@@ -138,6 +138,7 @@
     -webkit-tap-highlight-color: transparent;
   }
   .seq-btn.on { background: var(--btn); color: var(--btn-ink); }
+  .topbar .seq-btn { padding: 2px 10px; }
   .nav { display: flex; align-items: center; gap: 2px; margin: 0 0 12px; }
   .nav-arrow {
     flex: 0 0 28px; width: 28px; height: 34px;
@@ -191,6 +192,7 @@
   <div class="topbar">
     <p class="book"><a class="home" href="../index.html"><span class="home-arrow">&lsaquo;</span>1000 Words · Book One</a></p>
     <button class="seq-btn" id="seqBtn" type="button">连读</button>
+    
   </div>
 
   <div class="nav">
@@ -836,6 +838,21 @@
       n = n.parentNode;
     }
   }, false);
+
+  /* ---------- 语法：默认收起，点一下全展开，再点收起 ---------- */
+  var gramBtn = document.getElementById("gramBtn");
+  if (gramBtn) {
+    gramBtn.addEventListener("click", function () {
+      var on = document.body.className.indexOf("show-gram") > -1;
+      if (on) {
+        document.body.className = document.body.className.replace(/\s*show-gram/g, "");
+        gramBtn.classList.remove("on");
+      } else {
+        document.body.className = (document.body.className + " show-gram").replace(/^\s+/, "");
+        gramBtn.classList.add("on");
+      }
+    });
+  }
 })();
 
 </script>
