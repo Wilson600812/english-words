@@ -727,9 +727,9 @@
   })();
 
 
-  /* ---------- 连读：每条只读第 1 行单词 + 第 3 行例句，跳过释义行 ---------- */
+  /* ---------- 连读：单词页读「单词 + 例句」，句子页直接读句子 ---------- */
   var seqBtn = document.getElementById("seqBtn");
-  var seq = { on: false, list: null, i: 0, step: 0, timer: null, el: null };
+  var seq = { on: false, list: null, i: 0, timer: null, el: null };
   function seqIsBtn(n) {
     if (!n || !n.className || typeof n.className !== "string") return false;
     var cls = " " + n.className + " ";
@@ -749,10 +749,9 @@
     if (!seq.on) return;
     if (seq.i >= seq.list.length) { seqStop(); return; }
     var item = seq.list[seq.i];
-    var id = seq.step === 0 ? item.word : item.sent;
-    var el = document.getElementById(id);
-    if (!el) { seq.i++; seq.step = 0; seqNext(); return; }
-    if (seq.step === 0 && item.card && item.card.getBoundingClientRect) {
+    var el = document.getElementById(item.id);
+    if (!el) { seq.i++; seqNext(); return; }
+    if (item.card && item.card.getBoundingClientRect) {
       var r = item.card.getBoundingClientRect();
       var h = window.innerHeight || 600;
       if (r.top < 8 || r.bottom > h - 8) {
@@ -762,14 +761,16 @@
     }
     stopAudio();
     seq.el = el;
-    var spk = document.querySelector('[data-audio="' + id + '"]');
+    var spk = document.querySelector('[data-audio="' + item.id + '"]');
     currentAudio = el; currentBtn = spk || null;
     if (spk) spk.classList.add("playing");
     el.onended = function () {
       el.onended = null;
       if (!seq.on) return;
-      if (seq.step === 0) { seq.step = 1; seq.timer = setTimeout(seqNext, 320); }
-      else { seq.step = 0; seq.i++; seq.timer = setTimeout(seqNext, 460); }
+      seq.i++;
+      var nxt = seq.list[seq.i];
+      var gap = (nxt && nxt.card === item.card) ? 320 : 460;
+      seq.timer = setTimeout(seqNext, gap);
     };
     try { el.currentTime = 0; } catch (e) {}
     var pr = el.play();
@@ -782,10 +783,11 @@
       for (var i = 0; i < cards.length; i++) {
         var w = cards[i].querySelector('[data-kind="word"]');
         var s = cards[i].querySelector('[data-kind="sent"]');
-        if (w && s) out.push({ word: w.getAttribute("data-audio"), sent: s.getAttribute("data-audio"), card: cards[i] });
+        if (w) out.push({ id: w.getAttribute("data-audio"), card: cards[i] });
+        if (s) out.push({ id: s.getAttribute("data-audio"), card: cards[i] });
       }
       if (!out.length) return;
-      seq.list = out; seq.i = 0; seq.step = 0; seq.on = true;
+      seq.list = out; seq.i = 0; seq.on = true;
       seqBtn.textContent = "停止";
       seqBtn.classList.add("on");
       seqNext();
