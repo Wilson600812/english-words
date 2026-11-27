@@ -527,13 +527,17 @@
   /* 整页第一次出声时，音频输出管线是冷的：播放时钟已经在走，解码器/声卡还没吐第一帧，
      开头几十到几百毫秒会被吞。做法是先静音播 100ms 把管线热起来，再从 0 正式播。 */
   var audioPrimed = false;
-  function primeAndPlay(a, onFail) {
+  /* alwaysWarm=true：这一条自己没播过就热身（单句点播用）。
+     false：只保证整页第一次出声时热身（连读用，避免每段都多 110ms）。 */
+  function primeAndPlay(a, onFail, alwaysWarm) {
     function real() {
       try { a.currentTime = 0; } catch (e) {}
       var p = a.play();
       if (p && p.catch) p.catch(function () { (onFail || stopAudio)(); });
     }
-    if (audioPrimed) { real(); return; }
+    var need = alwaysWarm ? !a._primed : !audioPrimed;
+    if (!need) { real(); return; }
+    a._primed = true;
     audioPrimed = true;
     var vol = a.volume;
     a.volume = 0;
@@ -548,14 +552,14 @@
       }, 110);
     })["catch"](function () { a.volume = vol; real(); });
   }
-  function playWhenReady(a, btn, onFail) {
+  function playWhenReady(a, btn, onFail, alwaysWarm) {
     var started = false;
     function go() {
       if (started) return;
       started = true;
       if (currentAudio !== a) return;
       if (btn) btn.classList.remove("loading");
-      primeAndPlay(a, onFail);
+      primeAndPlay(a, onFail, alwaysWarm);
     }
     if (a.readyState >= 3) { go(); return; }
     if (btn) btn.classList.add("loading");
@@ -580,7 +584,7 @@
     currentAudio = a; currentBtn = btn || null;
     if (btn) btn.classList.add("playing");
     warmPause(8000);
-    playWhenReady(a, btn);
+    playWhenReady(a, btn, null, true);
   }
   var spks = document.querySelectorAll(".spk");
   for (var i = 0; i < spks.length; i++) {
