@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>小学句子朗读 · 第 4 页</title>
+<style>
+  * { box-sizing: border-box; }
+  :root {
+    color-scheme: light dark;
+    --bg: #f4f4f2;
+    --card: #ffffff;
+    --ink: #1a1a1a;
+    --soft: #444444;
+    --muted: #6b6b6b;
+    --line: #d8d8d4;
+    --chip: #eeeeea;
+    --btn: #1a1a1a;
+    --btn-ink: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141414;
+      --card: #1f1f1f;
+      --ink: #f0f0ec;
+      --soft: #cfcfc9;
+      --muted: #a3a39c;
+      --line: #3a3a36;
+      --chip: #2b2b28;
+      --btn: #f0f0ec;
+      --btn-ink: #141414;
+    }
+  }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.4;
+    font-size: 15px;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 12px 12px 32px; }
+  .crumb { font-size: 13px; color: var(--muted); margin: 2px 2px 10px; }
+  .crumb strong { color: var(--ink); }
+  .word-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 12px 11px;
+    margin-bottom: 10px;
+  }
+  .row { display: flex; flex-wrap: wrap; align-items: center; column-gap: 7px; row-gap: 2px; }
+  .row-line { margin-top: 5px; font-size: 15px; flex-wrap: nowrap; align-items: flex-start; }
+  .row-line .spk { margin-top: 1px; }
+  .line-text { flex: 1 1 auto; min-width: 0; }
+  .line-text .zh2 { margin-left: 6px; }
+  .line-text .pos { margin-right: 3px; }
+  .num {
+    font-size: 12px; font-weight: 700; color: var(--muted);
+    border: 1px solid var(--line); border-radius: 4px;
+    padding: 0 5px; line-height: 1.5;
+  }
+  .word { font-size: 20px; font-weight: 700; letter-spacing: 0.01em; }
+  .phon { font-size: 14px; color: var(--soft); }
+  .zh { font-size: 15px; font-weight: 600; }
+  .pos { font-style: italic; font-weight: 700; color: var(--soft); margin-right: 1px; }
+  .zh .pos { margin-right: 2px; }
+  .en { font-size: 15.5px; }
+  .en strong { font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  .zh2 { font-size: 14px; color: var(--soft); }
+  .spk {
+    display: inline-flex; align-items: center; justify-content: center;
+    flex: 0 0 auto;
+    height: 26px; width: 32px;
+    padding: 2px 0;
+    border: 1px solid var(--line); border-radius: 999px;
+    background: var(--card); color: var(--ink);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .spk.playing { background: var(--btn); color: var(--btn-ink); border-color: var(--btn); }
+  .spk.loading { opacity: .4; }
+  /* ===== 显示模式：只英 / 只中，音频不受影响 ===== */
+  body.only-en .s-zh { display: none; }
+  body.only-zh .s-en { display: none; }
+  body.only-en .s-gram, body.only-zh .s-gram { display: none; }
+  /* 只显示英文时，中文行只剩「跟读」，把它靠左收拢，别孤零零挂在右边 */
+  body.only-en .row-line .s-gap { display: none; }
+  body.only-en .row-line .line-text { display: none; }
+  body.only-en .row-line .follow-btn { margin-left: 0; }
+  .follow-btn {
+    min-height: 26px;
+    padding: 2px 10px;
+    border: 1px solid var(--ink); border-radius: 999px;
+    background: var(--card); color: var(--ink);
+    font-family: inherit; font-size: 13px; font-weight: 600;
+    cursor: pointer; margin-left: 8px; flex: 0 0 auto;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .follow-btn.listening { background: var(--btn); color: var(--btn-ink); }
+  .playmine-btn {
+    min-height: 26px; padding: 2px 10px;
+    border: 1px solid var(--btn); border-radius: 999px;
+    background: var(--btn); color: var(--btn-ink);
+    font-family: inherit; font-size: 13px; font-weight: 600;
+    cursor: pointer; -webkit-tap-highlight-color: transparent;
+  }
+  .meter {
+    height: 8px; margin-top: 6px;
+    border: 1px solid var(--line); border-radius: 999px;
+    background: var(--chip); overflow: hidden;
+  }
+  .meter-fill { height: 100%; width: 0%; background: var(--ink); transition: width .15s linear; }
+  .panel {
+    margin-top: 8px; padding: 8px 10px;
+    border: 1px dashed var(--line); border-radius: 8px;
+    font-size: 14px;
+  }
+  .panel .status { font-size: 14px; }
+  .hint { font-size: 12.5px; color: var(--muted); margin: 4px 2px 12px; line-height: 1.6; }
+  .foot { font-size: 12.5px; color: var(--muted); margin: 14px 2px 0; line-height: 1.6; }
+  @media (min-width: 560px) {
+    .wrap { padding: 16px 20px 40px; }
+    .word { font-size: 21px; }
+  }
+
+  /* ===== 课时方格导航 + 学习状态 ===== */
+  .book {
+    font-size: 14px; font-weight: 700; margin: 0;
+    flex: 1 1 auto; min-width: 0;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .back-btn {
+    flex: 0 0 auto;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px;
+    border: 1.5px solid var(--muted); border-radius: 10px;
+    background: var(--card); color: var(--ink);
+    text-decoration: none; font-size: 17px; font-weight: 700; line-height: 1;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back-btn:active { background: var(--chip); }
+  .toast {
+    position: fixed; left: 50%; top: 14px; transform: translateX(-50%);
+    background: rgba(20,20,20,.92); color: #fff; font-size: 13px;
+    padding: 7px 14px; border-radius: 999px; z-index: 99;
+    pointer-events: none; opacity: 0; transition: opacity .18s;
+  }
+  .toast.show { opacity: 1; }
+  .topbar { display: flex; align-items: center; gap: 7px; margin: 4px 2px 8px; }
+  .seq-btn {
+    flex: 0 0 auto; min-height: 28px; padding: 2px 12px;
+    border: 1px solid var(--ink); border-radius: 999px;
+    background: var(--card); color: var(--ink);
+    font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .seq-btn.on { background: var(--btn); color: var(--btn-ink); }
+  .topbar .seq-btn { padding: 2px 9px; }
+  .nav { display: flex; align-items: center; gap: 2px; margin: 0 0 12px; }
+  .nav-arrow {
+    flex: 0 0 28px; width: 28px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    border: 0; background: transparent; color: var(--muted);
+    font-size: 22px; line-height: 1; cursor: pointer; border-radius: 8px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav-arrow:active { background: var(--chip); }
+  .nav-arrow[disabled] { opacity: .25; }
+  .cells {
+    display: flex; gap: 6px; flex: 1 1 auto; padding: 2px;
+    overflow-x: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .cells::-webkit-scrollbar { display: none; }
+  .cell {
+    flex: 0 0 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid #1a1a1a; border-radius: 8px;
+    background: #fff; color: #111;
+    font-size: 13px; font-weight: 700; text-decoration: none;
+  }
+  .cell.current { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .cell.todo { background: transparent; border-style: dashed; border-color: var(--line); color: var(--muted); }
+  .cell.learned  { background: #38a169; border-color: #2f855a; color: #fff; }
+  .cell.mastered { background: #f6c026; border-color: #b98900; color: #1a1a1a; }
+  .cell.reviewed { background: #f08a24; border-color: #c26a10; color: #fff; }
+  .marks {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    margin: 14px 0 4px; padding-top: 12px; border-top: 1px solid var(--line);
+  }
+  .marks-label { font-size: 13px; color: var(--muted); }
+  .mark {
+    display: inline-flex; align-items: center; gap: 6px;
+    min-height: 32px; padding: 3px 12px;
+    border: 1px solid var(--line); border-radius: 999px;
+    background: var(--card); color: var(--ink);
+    font-family: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mark i { width: 12px; height: 12px; border-radius: 4px; border: 1px solid #1a1a1a; background: #fff; }
+  .mark[data-st="learned"] i  { background: #38a169; border-color: #2f855a; }
+  .mark[data-st="mastered"] i { background: #f6c026; border-color: #b98900; }
+  .mark[data-st="reviewed"] i { background: #f08a24; border-color: #c26a10; }
+  .mark.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+
+  /* ===== 句子页专用 ===== */
+  .row-word { align-items: flex-start; }
+  .row-word .num { margin-top: 3px; }
+  .s-en { font-size: 17px; font-weight: 400; line-height: 1.45; flex: 1 1 0%; min-width: 0; }
+  .s-en strong { font-weight: 700; }
+  .s-zh { font-size: 14px; color: var(--soft); }
+  .s-gap { flex: 0 0 32px; }
+  .s-gram { display: none; margin: 6px 0 0 39px; font-size: 13px; color: var(--muted); line-height: 1.55; }
+  body.show-gram .s-gram { display: block; }
+  .s-gram b {
+    display: inline-block; font-size: 11.5px; font-weight: 700; color: var(--ink);
+    border: 1px solid var(--line); border-radius: 4px; padding: 0 4px;
+    margin-right: 4px; vertical-align: 1px;
+  }
+</style>
+</head>
+<body data-page="4">
+<main class="wrap">
+  <div class="topbar">
+    <a class="back-btn" href="../index.html" aria-label="返回目录">&larr;</a>
+    <p class="book">小学句子朗读 · 100 句</p>
+    <button class="seq-btn" id="seqBtn" type="button">连读</button>
+    <button class="seq-btn" id="gramBtn" type="button">语法</button>
+    <button class="seq-btn" id="modeBtn" type="button">英中</button>
+  </div>
+
+  <div class="nav">
+    <button class="nav-arrow" id="navPrev" type="button" aria-label="往前翻">&lsaquo;</button>
+    <div class="cells" id="cells"><a class="cell" data-page="1" href="index.html">1</a><a class="cell" data-page="2" href="第02页.html">2</a><a class="cell" data-page="3" href="第03页.html">3</a><span class="cell current" data-page="4">4</span><a class="cell" data-page="5" href="第05页.html">5</a><span class="cell todo" data-page="6" title="还没做">6</span><span class="cell todo" data-page="7" title="还没做">7</span><span class="cell todo" data-page="8" title="还没做">8</span><span class="cell todo" data-page="9" title="还没做">9</span><span class="cell todo" data-page="10" title="还没做">10</span></div>
+    <button class="nav-arrow" id="navNext" type="button" aria-label="往后翻">&rsaquo;</button>
+  </div>
+
+    <article class="word-card">
+      <div class="row row-word">
+        <button class="spk" type="button" data-kind="sent" data-audio="s-031" aria-label="播放第 31 句"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <span class="num">31</span>
+        <span class="s-en">We're going to <strong>leave</strong> our primary school soon and <strong>start</strong> middle school this September.</span>
+      </div>
+      <div class="row row-line">
+        <span class="s-gap"></span>
+        <span class="line-text"><span class="s-zh">我们很快就要离开小学，今年九月开始上中学。</span></span>
+        <button class="follow-btn" type="button" data-target="We're going to leave our primary school soon and start middle school this September." data-panel="p-s-031">跟读</button>
+      </div>
+      <div class="s-gram"><b>语法</b>be going to 后面并列两个动作 · be going to 后面用 and 连接两个动词，第二个前面的 to 可以省略。</div>
+      <div class="panel" id="p-s-031" hidden></div>
+    </article>
+
+    <article class="word-card">
+      <div class="row row-word">
+        <button class="spk" type="button" data-kind="sent" data-audio="s-032" aria-label="播放第 32 句"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <span class="num">32</span>
+        <span class="s-en">I like football, <strong>reading</strong>, <strong>swimming</strong> and <strong>singing</strong> songs.</span>
+      </div>
+      <div class="row row-line">
+        <span class="s-gap"></span>
+        <span class="line-text"><span class="s-zh">我喜欢足球、阅读、游泳和唱歌。</span></span>
+        <button class="follow-btn" type="button" data-target="I like football, reading, swimming and singing songs." data-panel="p-s-032">跟读</button>
+      </div>
+      <div class="s-gram"><b>语法</b>like + 名词/动名词并列 · like 后面接名词或动名词都行，并列时形式要保持一致。</div>
+      <div class="panel" id="p-s-032" hidden></div>
+    </article>
+
+    <article class="word-card">
+      <div class="row row-word">
+        <button class="spk" type="button" data-kind="sent" data-audio="s-033" aria-label="播放第 33 句"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <span class="num">33</span>
+        <span class="s-en">It's very hot in summer <strong>so</strong> I like to go swimming.</span>
+      </div>
+      <div class="row row-line">
+        <span class="s-gap"></span>
+        <span class="line-text"><span class="s-zh">夏天很热，所以我喜欢去游泳。</span></span>
+        <button class="follow-btn" type="button" data-target="It's very hot in summer so I like to go swimming." data-panel="p-s-033">跟读</button>
+      </div>
+      <div class="s-gram"><b>语法</b>so 表示结果 · so 连接结果：前面是原因，后面是结果。</div>
+      <div class="panel" id="p-s-033" hidden></div>
+    </article>
+
+    <article class="word-card">
+      <div class="row row-word">
+        <button class="spk" type="button" data-kind="sent" data-audio="s-034" aria-label="播放第 34 句"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <span class="num">34</span>
+        <span class="s-en">Listen, <strong>the girls</strong> are singing in <strong>the music room</strong>.</span>
+      </div>
+      <div class="row row-line">
+        <span class="s-gap"></span>
+        <span class="line-text"><span class="s-zh">听，女孩子们正在音乐教室唱歌。</span></span>
+        <button class="follow-btn" type="button" data-target="Listen, the girls are singing in the music room." data-panel="p-s-034">跟读</button>
+      </div>
+      <div class="s-gram"><b>语法</b>定冠词 the 的特指用法 · the 指双方都知道的那个：那些女孩、那间音乐教室。</div>
+      <div class="panel" id="p-s-034" hidden></div>
+    </article>
+
+    <article class="word-card">
+      <div class="row row-word">
+        <button class="spk" type="button" data-kind="sent" data-audio="s-035" aria-label="播放第 35 句"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <span class="num">35</span>
+        <span class="s-en">She began to learn the piano <strong>at the age of five</strong>.</span>
+      </div>
+      <div class="row row-line">
+        <span class="s-gap"></span>
+        <span class="line-text"><span class="s-zh">她五岁开始学钢琴。</span></span>
+        <button class="follow-btn" type="button" data-target="She began to learn the piano at the age of five." data-panel="p-s-035">跟读</button>
+      </div>
+      <div class="s-gram"><b>语法</b>at the age of + 年龄 · at the age of 表示"在……岁时"。</div>
+      <div class="panel" id="p-s-035" hidden></div>
+    </article>
+
+    <article class="word-card">
+      <div class="row row-word">
+        <button class="spk" type="button" data-kind="sent" data-audio="s-036" aria-label="播放第 36 句"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <span class="num">36</span>
+        <span class="s-en"><strong>Here is</strong> a story about air and water.</span>
+      </div>
+      <div class="row row-line">
+        <span class="s-gap"></span>
+        <span class="line-text"><span class="s-zh">这里有一个关于空气和水的故事。</span></span>
+        <button class="follow-btn" type="button" data-target="Here is a story about air and water." data-panel="p-s-036">跟读</button>
+      </div>
+      <div class="s-gram"><b>语法</b>Here is 倒装句 · Here is 后面跟名词，表示"这就是／这里有"，是倒装语序。</div>
+      <div class="panel" id="p-s-036" hidden></div>
+    </article>
+
+    <article class="word-card">
+      <div class="row row-word">
+        <button class="spk" type="button" data-kind="sent" data-audio="s-037" aria-label="播放第 37 句"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <span class="num">37</span>
+        <span class="s-en">We will have <strong>an English party</strong> next Sunday.</span>
+      </div>
+      <div class="row row-line">
+        <span class="s-gap"></span>
+        <span class="line-text"><span class="s-zh">下周日我们要办一场英语晚会。</span></span>
+        <button class="follow-btn" type="button" data-target="We will have an English party next Sunday." data-panel="p-s-037">跟读</button>
+      </div>
+      <div class="s-gram"><b>语法</b>a / an 的区别 · 看的是音素不是字母：English 以元音音素开头，用 an。</div>
+      <div class="panel" id="p-s-037" hidden></div>
+    </article>
+
+    <article class="word-card">
+      <div class="row row-word">
+        <button class="spk" type="button" data-kind="sent" data-audio="s-038" aria-label="播放第 38 句"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <span class="num">38</span>
+        <span class="s-en">We gave mum a surprising party <strong>on her 40th birthday</strong>.</span>
+      </div>
+      <div class="row row-line">
+        <span class="s-gap"></span>
+        <span class="line-text"><span class="s-zh">我们在妈妈四十岁生日时给她办了个惊喜派对。</span></span>
+        <button class="follow-btn" type="button" data-target="We gave mum a surprising party on her 40th birthday." data-panel="p-s-038">跟读</button>
+      </div>
+      <div class="s-gram"><b>语法</b>on + 具体某一天 · on 用在具体的某一天或某个场合（生日、星期几）；上午下午用 in the。</div>
+      <div class="panel" id="p-s-038" hidden></div>
+    </article>
+
+    <article class="word-card">
+      <div class="row row-word">
+        <button class="spk" type="button" data-kind="sent" data-audio="s-039" aria-label="播放第 39 句"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <span class="num">39</span>
+        <span class="s-en">This morning Tina and I <strong>flew</strong> my new kite in the park, but it wasn't windy in the park.</span>
+      </div>
+      <div class="row row-line">
+        <span class="s-gap"></span>
+        <span class="line-text"><span class="s-zh">今天早上我和 Tina 在公园放新风筝，可公园里没有风。</span></span>
+        <button class="follow-btn" type="button" data-target="This morning Tina and I flew my new kite in the park, but it wasn't windy in the park." data-panel="p-s-039">跟读</button>
+      </div>
+      <div class="s-gram"><b>语法</b>this morning 配一般过去时 · this morning 指已经过去的今天早上，动词用过去式。</div>
+      <div class="panel" id="p-s-039" hidden></div>
+    </article>
+
+    <article class="word-card">
+      <div class="row row-word">
+        <button class="spk" type="button" data-kind="sent" data-audio="s-040" aria-label="播放第 40 句"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9.5v5h3.2L12 18.6V5.4L7.2 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 0 1 0 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18 6.8a7.4 7.4 0 0 1 0 10.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        <span class="num">40</span>
+        <span class="s-en">It's very <strong>kind of you to help</strong> me get the ticket for the concert.</span>
+      </div>
+      <div class="row row-line">
+        <span class="s-gap"></span>
+        <span class="line-text"><span class="s-zh">你帮我弄到音乐会的票，真是太好了。</span></span>
+        <button class="follow-btn" type="button" data-target="It's very kind of you to help me get the ticket for the concert." data-panel="p-s-040">跟读</button>
+      </div>
+      <div class="s-gram"><b>语法</b>It's + adj. + of sb. + to do · 形容人的品质（kind、nice）时用 of sb.，句型是 It's kind of you to do sth.。</div>
+      <div class="panel" id="p-s-040" hidden></div>
+    </article>
+
+  <div class="marks">
+    <span class="marks-label">这一课</span>
+    <button class="mark" type="button" data-st="learned"><i></i>已学</button>
+    <button class="mark" type="button" data-st="mastered"><i></i>已掌握</button>
+    <button class="mark" type="button" data-st="reviewed"><i></i>已复习</button>
+  </div>
+</main>
+
+<audio id="s-031" preload="auto" src="audio/s-031.mp3"></audio>
+<audio id="s-032" preload="none" src="audio/s-032.mp3"></audio>
+<audio id="s-033" preload="none" src="audio/s-033.mp3"></audio>
+<audio id="s-034" preload="none" src="audio/s-034.mp3"></audio>
+<audio id="s-035" preload="none" src="audio/s-035.mp3"></audio>
+<audio id="s-036" preload="none" src="audio/s-036.mp3"></audio>
+<audio id="s-037" preload="none" src="audio/s-037.mp3"></audio>
+<audio id="s-038" preload="none" src="audio/s-038.mp3"></audio>
+<audio id="s-039" preload="none" src="audio/s-039.mp3"></audio>
+<audio id="s-040" preload="none" src="audio/s-040.mp3"></audio>
+
+<script>
+
+(function () {
+  var currentAudio = null, currentBtn = null;
+  function stopAudio() {
+    if (currentAudio) { try { currentAudio.pause(); currentAudio.currentTime = 0; } catch (e) {} }
+    if (currentBtn) { currentBtn.classList.remove("playing"); currentBtn.classList.remove("loading"); }
+    currentAudio = null; currentBtn = null;
+  }
+  /* 音频是独立文件，点下去要先下载。必须等到真正可播（readyState>=3）再 play，
+     否则播放时钟先走、解码器还没出第一帧，开头几个词会被吞掉。 */
+  /* 后台悄悄把音频存进浏览器缓存：打开页面后逐段预取，用户一点就暂停，把带宽让给点击。 */
+  var warmed = {}, warmTimer = null, warmOff = false, warmRound = 0;
+  function warmOne(el) {
+    var src = el && el.getAttribute("src");
+    if (!src || warmed[src]) return;
+    warmed[src] = true;
+    try { fetch(src, { cache: "force-cache" }).catch(function () { warmed[src] = false; }); } catch (e) {}
+  }
+  function warmStart(delay) {
+    if (warmTimer) clearTimeout(warmTimer);
+    var round = ++warmRound;
+    warmTimer = setTimeout(function () {
+      var list = document.querySelectorAll("audio"), i = 0;
+      (function step() {
+        if (warmOff || round !== warmRound) return;
+        if (i >= list.length) return;
+        warmOne(list[i]); i++;
+        warmTimer = setTimeout(step, 700);
+      })();
+    }, delay || 1500);
+  }
+  function warmPause(ms) {
+    warmOff = true; warmRound++;
+    if (warmTimer) clearTimeout(warmTimer);
+    setTimeout(function () { if (warmOff) { warmOff = false; warmStart(0); } }, ms || 8000);
+  }
+  function prefetch(el) {
+    if (!el || el.readyState >= 3) return;
+    try { el.load(); } catch (e) {}
+  }
+  /* 整页第一次出声时，音频输出管线是冷的：播放时钟已经在走，解码器/声卡还没吐第一帧，
+     开头几十到几百毫秒会被吞。做法是先静音播 100ms 把管线热起来，再从 0 正式播。 */
+  var audioPrimed = false;
+  function primeAndPlay(a, onFail) {
+    function real() {
+      try { a.currentTime = 0; } catch (e) {}
+      var p = a.play();
+      if (p && p.catch) p.catch(function () { (onFail || stopAudio)(); });
+    }
+    if (audioPrimed) { real(); return; }
+    audioPrimed = true;
+    var vol = a.volume;
+    a.volume = 0;
+    var p0 = null;
+    try { p0 = a.play(); } catch (e) { a.volume = vol; real(); return; }
+    if (!p0 || !p0.then) { a.volume = vol; real(); return; }
+    p0.then(function () {
+      setTimeout(function () {
+        try { a.pause(); a.currentTime = 0; } catch (e) {}
+        a.volume = vol;
+        real();
+      }, 110);
+    })["catch"](function () { a.volume = vol; real(); });
+  }
+  function playWhenReady(a, btn, onFail) {
+    var started = false;
+    function go() {
+      if (started) return;
+      started = true;
+      if (currentAudio !== a) return;
+      if (btn) btn.classList.remove("loading");
+      primeAndPlay(a, onFail);
+    }
+    if (a.readyState >= 3) { go(); return; }
+    if (btn) btn.classList.add("loading");
+    var fired = false;
+    function ready() {
+      if (fired) return;
+      fired = true;
+      a.removeEventListener("canplay", ready);
+      a.removeEventListener("canplaythrough", ready);
+      go();
+    }
+    a.addEventListener("canplay", ready);
+    a.addEventListener("canplaythrough", ready);
+    try { a.load(); } catch (e) { ready(); }
+    setTimeout(ready, 5000);
+  }
+  function playAudio(id, btn) {
+    var a = document.getElementById(id);
+    if (!a) return;
+    if (currentAudio === a) { stopAudio(); return; }
+    stopAudio();
+    currentAudio = a; currentBtn = btn || null;
+    if (btn) btn.classList.add("playing");
+    warmPause(8000);
+    playWhenReady(a, btn);
+  }
+  var spks = document.querySelectorAll(".spk");
+  for (var i = 0; i < spks.length; i++) {
+    (function (btn) {
+      var a = document.getElementById(btn.getAttribute("data-audio"));
+      if (a) a.addEventListener("ended", function () { if (currentAudio === a) stopAudio(); });
+      btn.addEventListener("click", function () { playAudio(btn.getAttribute("data-audio"), btn); });
+    })(spks[i]);
+  }
+
+  /* ---------- 「播放我的录音」按钮：跟读结束后出现在跟读按钮后面 ---------- */
+  function stopMine(btn) {
+    if (btn._mineAudio) { try { btn._mineAudio.pause(); } catch (e) {} }
+    if (btn._playBtn) btn._playBtn.textContent = "▶ 播放我的录音";
+    btn._minePlaying = false;
+  }
+  function ensurePlayBtn(btn) {
+    if (btn._playBtn) return btn._playBtn;
+    var pb = document.createElement("button");
+    pb.type = "button";
+    pb.className = "playmine-btn";
+    pb.textContent = "▶ 播放我的录音";
+    pb.hidden = true;
+    btn.parentNode.insertBefore(pb, btn.nextSibling);
+    btn._playBtn = pb;
+    pb.addEventListener("click", function () {
+      if (!btn._recUrl) return;
+      if (btn._minePlaying) { stopMine(btn); return; }
+      stopAudio();
+      if (!btn._mineAudio) {
+        btn._mineAudio = new Audio();
+        btn._mineAudio.addEventListener("ended", function () { stopMine(btn); });
+        btn._mineAudio.addEventListener("pause", function () { if (!btn._mineAudio.ended) stopMine(btn); });
+      }
+      btn._mineAudio.src = btn._recUrl;
+      btn._minePlaying = true;
+      pb.textContent = "■ 停止播放";
+      var p = btn._mineAudio.play();
+      if (p && p.catch) p.catch(function () { stopMine(btn); });
+    });
+    return pb;
+  }
+
+  /* ---------- 跟读：只录音 + 回放，自己和原音对照 ----------
+     不评分、不识别、不下载任何文件。录音在本机进行，录完可以回放，
+     和小喇叭的原音来回对照着听。 */
+  var SILENCE_MS = 2000;   /* 开口之后，连续 2 秒没声就自动结束 */
+  var MAX_MS = 30000;      /* 全程上限 30 秒 */
+  var THRESH = 0.03;       /* 音量超过这个值算「听到声音」 */
+  var activeSession = null;
+
+  function setBtnRecording(btn, on) {
+    if (on) { btn.classList.add("listening"); btn.textContent = "■ 停止"; }
+    else { btn.classList.remove("listening"); btn.textContent = "跟读"; }
+  }
+
+  function startFollow(btn) {
+    if (activeSession) { finishSession(activeSession); return; }
+    var panel = document.getElementById(btn.getAttribute("data-panel"));
+    stopAudio(); stopMine(btn);
+    panel.hidden = false;
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      panel.innerHTML = "<div>这个浏览器拿不到麦克风，没法录音跟读。可以先点小喇叭听示范，自己出声跟着读几遍。</div>";
+      return;
+    }
+    var session = {
+      btn: btn, panel: panel, phase: "starting",
+      stream: null, chunks: [], recorder: null, recUrl: null,
+      speechStarted: false, lastSoundAt: 0, startAt: Date.now(),
+      tick: null, actx: null, analyser: null, buf: null,
+      fillEl: null, statusEl: null, finished: false, rendered: false
+    };
+    activeSession = session;
+    setBtnRecording(btn, true);
+    beginCapture(session);
+  }
+
+  function beginCapture(session) {
+    var btn = session.btn, panel = session.panel;
+    panel.innerHTML = "<div>正在打开麦克风…如果弹出询问，请点「允许」。</div>";
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+      if (session.finished) { stream.getTracks().forEach(function (t) { try { t.stop(); } catch (e) {} }); return; }
+      session.stream = stream;
+      session.phase = "rec";
+      session.startAt = Date.now();
+
+      /* 录音：本地进行，用于回放对照 */
+      if (typeof MediaRecorder !== "undefined") {
+        try {
+          session.recorder = new MediaRecorder(stream);
+          session.recorder.ondataavailable = function (e) { if (e.data && e.data.size) session.chunks.push(e.data); };
+          session.recorder.onstop = function () { onRecorderStop(session); };
+          session.recorder.start(250);
+        } catch (e) { session.recorder = null; }
+      }
+
+      /* 音量条：用 AnalyserNode 看麦克风音量，驱动面板里的条 */
+      try {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (AC) {
+          session.actx = new AC();
+          if (session.actx.resume) session.actx.resume();
+          var srcNode = session.actx.createMediaStreamSource(stream);
+          session.analyser = session.actx.createAnalyser();
+          session.analyser.fftSize = 512;
+          srcNode.connect(session.analyser);
+          session.buf = new Uint8Array(session.analyser.fftSize);
+        }
+      } catch (e) { session.analyser = null; }
+
+      panel.innerHTML =
+        '<div class="status">正在录音，照着读吧：说话时下面这条会动；读完停 2 秒就自动结束，也可以点「■ 停止」。</div>' +
+        '<div class="meter"><div class="meter-fill"></div></div>';
+      session.fillEl = panel.querySelector(".meter-fill");
+      session.statusEl = panel.querySelector(".status");
+      session.tick = setInterval(function () { tickSession(session); }, 100);
+    }).catch(function () {
+      if (session.finished) return;
+      session.finished = true;
+      if (activeSession === session) activeSession = null;
+      setBtnRecording(btn, false);
+      panel.innerHTML = "<div>拿不到麦克风权限，录不了音。请在浏览器设置里允许这个网站使用麦克风；如果麦克风正被别的 App 占用，先关掉它再试。</div>";
+    });
+  }
+
+  function tickSession(session) {
+    if (session.finished || activeSession !== session) return;
+    var level = 0;
+    if (session.analyser && session.buf) {
+      session.analyser.getByteTimeDomainData(session.buf);
+      var sum = 0;
+      for (var i = 0; i < session.buf.length; i++) { var v = (session.buf[i] - 128) / 128; sum += v * v; }
+      level = Math.sqrt(sum / session.buf.length);
+    }
+    if (session.fillEl) session.fillEl.style.width = Math.min(100, Math.round(level * 400)) + "%";
+    var now = Date.now();
+    if (level > THRESH) {
+      session.lastSoundAt = now;
+      if (!session.speechStarted) {
+        session.speechStarted = true;
+        if (session.statusEl) session.statusEl.textContent = "听到你的声音了，继续读；读完停 2 秒就自动结束。";
+      }
+    }
+    if (session.speechStarted && session.lastSoundAt && now - session.lastSoundAt >= SILENCE_MS) { finishSession(session); return; }
+    if (now - session.startAt >= MAX_MS) { finishSession(session); return; }
+  }
+
+  function finishSession(session) {
+    if (!session || session.finished) return;
+    session.finished = true;
+    if (activeSession === session) activeSession = null;
+    if (session.tick) { clearInterval(session.tick); session.tick = null; }
+    setBtnRecording(session.btn, false);
+    if (session.phase === "starting") {
+      session.panel.hidden = true;
+      session.panel.innerHTML = "";
+      return;
+    }
+    if (session.recorder && session.recorder.state !== "inactive") {
+      try { session.recorder.stop(); } catch (e) { cleanupStream(session); renderFinal(session); }
+    } else {
+      cleanupStream(session);
+      renderFinal(session);
+    }
+  }
+
+  function onRecorderStop(session) {
+    cleanupStream(session);
+    if (session.chunks.length) {
+      var type = (session.recorder && session.recorder.mimeType) ? session.recorder.mimeType : "audio/webm";
+      var blob = new Blob(session.chunks, { type: type });
+      if (session.btn._recUrl) { try { URL.revokeObjectURL(session.btn._recUrl); } catch (e) {} }
+      session.recUrl = URL.createObjectURL(blob);
+      session.btn._recUrl = session.recUrl;
+      stopMine(session.btn);
+      ensurePlayBtn(session.btn).hidden = false;
+    }
+    renderFinal(session);
+  }
+
+  function cleanupStream(session) {
+    if (session.stream) {
+      session.stream.getTracks().forEach(function (t) { try { t.stop(); } catch (e) {} });
+      session.stream = null;
+    }
+    if (session.actx) { try { session.actx.close(); } catch (e) {} session.actx = null; }
+  }
+
+  function renderFinal(session) {
+    if (session.rendered) return;
+    session.rendered = true;
+    /* 录完自动折起：只保留录音时的音量条，录完就收起面板。
+       回放走句子后面的「播放我的录音」，听原音点小喇叭，再读点「跟读」。 */
+    session.panel.hidden = true;
+    session.panel.innerHTML = "";
+  }
+
+  var fbtns = document.querySelectorAll(".follow-btn");
+  for (var j = 0; j < fbtns.length; j++) {
+    (function (btn) {
+      btn.addEventListener("click", function () { startFollow(btn); });
+    })(fbtns[j]);
+  }
+
+  /* ================= 课时方格 + 学习状态 =================
+     状态存在本机浏览器（localStorage），同一网址下所有页面共享；
+     换设备或清缓存会丢，这是刻意的：不登录、不上传。 */
+  var BOOK_KEY = "ew:sentence";
+  function stateAll() {
+    try { return JSON.parse(localStorage.getItem(BOOK_KEY)) || {}; } catch (e) { return {}; }
+  }
+  function stateSet(page, st) {
+    var s = stateAll();
+    if (st) s[page] = st; else delete s[page];
+    try { localStorage.setItem(BOOK_KEY, JSON.stringify(s)); } catch (e) {}
+    paintState();
+  }
+  function paintState() {
+    var s = stateAll();
+    var cells = document.querySelectorAll(".cell");
+    for (var i = 0; i < cells.length; i++) {
+      var p = cells[i].getAttribute("data-page");
+      cells[i].classList.remove("learned", "mastered", "reviewed");
+      if (s[p]) cells[i].classList.add(s[p]);
+    }
+    var cur = document.body.getAttribute("data-page");
+    var marks = document.querySelectorAll(".mark");
+    for (var j = 0; j < marks.length; j++) {
+      if (s[cur] === marks[j].getAttribute("data-st")) marks[j].classList.add("on");
+      else marks[j].classList.remove("on");
+    }
+  }
+  (function () {
+    var cellsEl = document.getElementById("cells");
+    var prev = document.getElementById("navPrev");
+    var next = document.getElementById("navNext");
+    function step(dir) {
+      if (!cellsEl) return;
+      cellsEl.scrollLeft += dir * Math.max(120, cellsEl.clientWidth - 40);
+    }
+    if (prev) prev.addEventListener("click", function () { step(-1); });
+    if (next) next.addEventListener("click", function () { step(1); });
+    var marks = document.querySelectorAll(".mark");
+    for (var k = 0; k < marks.length; k++) {
+      (function (btn) {
+        btn.addEventListener("click", function () {
+          var cur = document.body.getAttribute("data-page");
+          var st = btn.getAttribute("data-st");
+          stateSet(cur, stateAll()[cur] === st ? "" : st);
+        });
+      })(marks[k]);
+    }
+    paintState();
+    warmStart(1500);
+  var cur = document.querySelector(".cell.current");
+    if (cur && cur.scrollIntoView) {
+      try { cur.scrollIntoView({ inline: "center", block: "nearest" }); } catch (e) {}
+    }
+  })();
+
+
+  /* ---------- 连读：单词页读「单词 + 例句」，句子页直接读句子 ---------- */
+  var seqBtn = document.getElementById("seqBtn");
+  var seq = { on: false, list: null, i: 0, timer: null, el: null };
+  function seqIsBtn(n) {
+    if (!n || !n.className || typeof n.className !== "string") return false;
+    var cls = " " + n.className + " ";
+    return cls.indexOf(" spk ") > -1 || cls.indexOf(" follow-btn ") > -1;
+  }
+  function seqStop() {
+    seq.on = false;
+    if (seq.timer) { clearTimeout(seq.timer); seq.timer = null; }
+    if (seq.el) {
+      try { seq.el.onended = null; seq.el.pause(); seq.el.currentTime = 0; } catch (e) {}
+      seq.el = null;
+    }
+    stopAudio();
+    if (seqBtn) { seqBtn.textContent = "连读"; seqBtn.classList.remove("on"); }
+  }
+  function seqNext() {
+    if (!seq.on) return;
+    if (seq.i >= seq.list.length) { seqStop(); return; }
+    var item = seq.list[seq.i];
+    var el = document.getElementById(item.id);
+    if (!el) { seq.i++; seqNext(); return; }
+    if (item.card && item.card.getBoundingClientRect) {
+      var r = item.card.getBoundingClientRect();
+      var h = window.innerHeight || 600;
+      if (r.top < 8 || r.bottom > h - 8) {
+        try { item.card.scrollIntoView({ behavior: "smooth", block: "center" }); }
+        catch (e) { try { item.card.scrollIntoView(); } catch (e2) {} }
+      }
+    }
+    stopAudio();
+    seq.el = el;
+    var spk = document.querySelector('[data-audio="' + item.id + '"]');
+    currentAudio = el; currentBtn = spk || null;
+    if (spk) spk.classList.add("playing");
+    el.onended = function () {
+      el.onended = null;
+      if (!seq.on) return;
+      seq.i++;
+      var nxt = seq.list[seq.i];
+      var gap = (nxt && nxt.card === item.card) ? 320 : 460;
+      seq.timer = setTimeout(seqNext, gap);
+    };
+    warmPause(8000);
+    playWhenReady(el, spk, seqStop);
+    var nextItem = seq.list[seq.i + 1];
+    if (nextItem) { prefetch(document.getElementById(nextItem.id)); }
+  }
+  if (seqBtn) {
+    seqBtn.addEventListener("click", function () {
+      if (seq.on) { seqStop(); return; }
+      var out = [], cards = document.querySelectorAll(".word-card");
+      for (var i = 0; i < cards.length; i++) {
+        var w = cards[i].querySelector('[data-kind="word"]');
+        var s = cards[i].querySelector('[data-kind="sent"]');
+        if (w) out.push({ id: w.getAttribute("data-audio"), card: cards[i] });
+        if (s) out.push({ id: s.getAttribute("data-audio"), card: cards[i] });
+      }
+      if (!out.length) return;
+      seq.list = out; seq.i = 0; seq.on = true;
+      seqBtn.textContent = "停止";
+      seqBtn.classList.add("on");
+      seqNext();
+    });
+  }
+  /* 点别的喇叭或跟读时先停连读（捕获阶段，早于按钮自己的处理） */
+  document.addEventListener("click", function (e) {
+    if (!seq.on) return;
+    var n = e.target;
+    while (n && n !== document.body) {
+      if (seqIsBtn(n)) { seqStop(); return; }
+      n = n.parentNode;
+    }
+  }, true);
+
+  /* ---------- 还没做的课时：点一下给个提示，不装作能跳 ---------- */
+  var UNIT_WORD = "页";
+  var toastEl = null, toastTimer = null;
+  function showToast(msg) {
+    if (!toastEl) {
+      toastEl = document.createElement("div");
+      toastEl.className = "toast";
+      document.body.appendChild(toastEl);
+    }
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove("show"); }, 1400);
+  }
+  document.addEventListener("click", function (e) {
+    var n = e.target;
+    while (n && n !== document.body) {
+      if (n.className && typeof n.className === "string" && (" " + n.className + " ").indexOf(" todo ") > -1) {
+        showToast("第 " + n.getAttribute("data-page") + " " + UNIT_WORD + "还没做");
+        return;
+      }
+      n = n.parentNode;
+    }
+  }, false);
+
+  /* ---------- 语法：默认收起，点一下全展开，再点收起 ---------- */
+  var gramBtn = document.getElementById("gramBtn");
+  if (gramBtn) {
+    gramBtn.addEventListener("click", function () {
+      var on = document.body.classList.toggle("show-gram");
+      gramBtn.classList.toggle("on", on);
+    });
+  }
+
+  /* ---------- 显示模式：英中 → 只英 → 只中 循环 ---------- */
+  var modeBtn = document.getElementById("modeBtn");
+  if (modeBtn) {
+    var MODE_CLASSES = ["", "only-en", "only-zh"];
+    var MODE_LABELS = ["英中", "英", "中"];
+    var modeIdx = 0;
+    modeBtn.addEventListener("click", function () {
+      document.body.classList.remove("only-en", "only-zh");
+      modeIdx = (modeIdx + 1) % 3;
+      if (MODE_CLASSES[modeIdx]) document.body.classList.add(MODE_CLASSES[modeIdx]);
+      modeBtn.textContent = MODE_LABELS[modeIdx];
+    });
+  }
+})();
+
+</script>
+</body>
+</html>
