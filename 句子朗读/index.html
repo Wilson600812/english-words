@@ -83,6 +83,14 @@
   }
   .spk.playing { background: var(--btn); color: var(--btn-ink); border-color: var(--btn); }
   .spk.loading { opacity: .4; }
+  /* ===== 显示模式：只英 / 只中，音频不受影响 ===== */
+  body.only-en .s-zh { display: none; }
+  body.only-zh .s-en { display: none; }
+  body.only-en .s-gram, body.only-zh .s-gram { display: none; }
+  /* 只显示英文时，中文行只剩「跟读」，把它靠左收拢，别孤零零挂在右边 */
+  body.only-en .row-line .s-gap { display: none; }
+  body.only-en .row-line .line-text { display: none; }
+  body.only-en .row-line .follow-btn { margin-left: 0; }
   .follow-btn {
     min-height: 26px;
     padding: 2px 10px;
@@ -142,7 +150,7 @@
     pointer-events: none; opacity: 0; transition: opacity .18s;
   }
   .toast.show { opacity: 1; }
-  .topbar { display: flex; align-items: center; gap: 8px; margin: 4px 2px 8px; }
+  .topbar { display: flex; align-items: center; gap: 7px; margin: 4px 2px 8px; }
   .seq-btn {
     flex: 0 0 auto; min-height: 28px; padding: 2px 12px;
     border: 1px solid var(--ink); border-radius: 999px;
@@ -151,7 +159,7 @@
     -webkit-tap-highlight-color: transparent;
   }
   .seq-btn.on { background: var(--btn); color: var(--btn-ink); }
-  .topbar .seq-btn { padding: 2px 10px; }
+  .topbar .seq-btn { padding: 2px 9px; }
   .nav { display: flex; align-items: center; gap: 2px; margin: 0 0 12px; }
   .nav-arrow {
     flex: 0 0 28px; width: 28px; height: 34px;
@@ -222,6 +230,7 @@
     <p class="book">小学句子朗读 · 100 句</p>
     <button class="seq-btn" id="seqBtn" type="button">连读</button>
     <button class="seq-btn" id="gramBtn" type="button">语法</button>
+    <button class="seq-btn" id="modeBtn" type="button">英中</button>
   </div>
 
   <div class="nav">
@@ -842,14 +851,22 @@
   var gramBtn = document.getElementById("gramBtn");
   if (gramBtn) {
     gramBtn.addEventListener("click", function () {
-      var on = document.body.className.indexOf("show-gram") > -1;
-      if (on) {
-        document.body.className = document.body.className.replace(/\s*show-gram/g, "");
-        gramBtn.classList.remove("on");
-      } else {
-        document.body.className = (document.body.className + " show-gram").replace(/^\s+/, "");
-        gramBtn.classList.add("on");
-      }
+      var on = document.body.classList.toggle("show-gram");
+      gramBtn.classList.toggle("on", on);
+    });
+  }
+
+  /* ---------- 显示模式：英中 → 只英 → 只中 循环 ---------- */
+  var modeBtn = document.getElementById("modeBtn");
+  if (modeBtn) {
+    var MODE_CLASSES = ["", "only-en", "only-zh"];
+    var MODE_LABELS = ["英中", "英", "中"];
+    var modeIdx = 0;
+    modeBtn.addEventListener("click", function () {
+      document.body.classList.remove("only-en", "only-zh");
+      modeIdx = (modeIdx + 1) % 3;
+      if (MODE_CLASSES[modeIdx]) document.body.classList.add(MODE_CLASSES[modeIdx]);
+      modeBtn.textContent = MODE_LABELS[modeIdx];
     });
   }
 })();
