@@ -84,13 +84,21 @@
   .spk.playing { background: var(--btn); color: var(--btn-ink); border-color: var(--btn); }
   .spk.loading { opacity: .4; }
   /* ===== 显示模式：只英 / 只中，音频不受影响 ===== */
+  /* 句子页 */
   body.only-en .s-zh { display: none; }
   body.only-zh .s-en { display: none; }
   body.only-en .s-gram, body.only-zh .s-gram { display: none; }
-  /* 只显示英文时，中文行只剩「跟读」，把它靠左收拢，别孤零零挂在右边 */
-  body.only-en .row-line .s-gap { display: none; }
-  body.only-en .row-line .line-text { display: none; }
-  body.only-en .row-line .follow-btn { margin-left: 0; }
+  /* 只显示英文时，中文行整块收起，跟读按钮靠左，别孤零零挂在右边 */
+  body.only-en .zh-line { display: none; }
+  body.only-en .s-gap { display: none; }
+  body.only-en .zh-line ~ .follow-btn { margin-left: 0; }
+  /* 单词页：只英藏中文，只中藏英文（单词、音标、词性、英文释义、例句） */
+  body.only-en .word-card .zh,
+  body.only-en .word-card .zh2 { display: none; }
+  body.only-zh .word-card .word,
+  body.only-zh .word-card .phon,
+  body.only-zh .word-card .pos,
+  body.only-zh .word-card .en { display: none; }
   .follow-btn {
     min-height: 26px;
     padding: 2px 10px;
@@ -215,7 +223,7 @@
     <p class="book">1000 Words · Book One</p>
     <button class="seq-btn" id="seqBtn" type="button">连读</button>
     
-    
+    <button class="seq-btn" id="modeBtn" type="button">英中</button>
   </div>
 
   <div class="nav">

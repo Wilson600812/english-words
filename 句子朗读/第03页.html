@@ -84,13 +84,21 @@
   .spk.playing { background: var(--btn); color: var(--btn-ink); border-color: var(--btn); }
   .spk.loading { opacity: .4; }
   /* ===== 显示模式：只英 / 只中，音频不受影响 ===== */
+  /* 句子页 */
   body.only-en .s-zh { display: none; }
   body.only-zh .s-en { display: none; }
   body.only-en .s-gram, body.only-zh .s-gram { display: none; }
-  /* 只显示英文时，中文行只剩「跟读」，把它靠左收拢，别孤零零挂在右边 */
-  body.only-en .row-line .s-gap { display: none; }
-  body.only-en .row-line .line-text { display: none; }
-  body.only-en .row-line .follow-btn { margin-left: 0; }
+  /* 只显示英文时，中文行整块收起，跟读按钮靠左，别孤零零挂在右边 */
+  body.only-en .zh-line { display: none; }
+  body.only-en .s-gap { display: none; }
+  body.only-en .zh-line ~ .follow-btn { margin-left: 0; }
+  /* 单词页：只英藏中文，只中藏英文（单词、音标、词性、英文释义、例句） */
+  body.only-en .word-card .zh,
+  body.only-en .word-card .zh2 { display: none; }
+  body.only-zh .word-card .word,
+  body.only-zh .word-card .phon,
+  body.only-zh .word-card .pos,
+  body.only-zh .word-card .en { display: none; }
   .follow-btn {
     min-height: 26px;
     padding: 2px 10px;
@@ -247,7 +255,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">桌上有一些书、一支钢笔和一支铅笔。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">桌上有一些书、一支钢笔和一支铅笔。</span></span>
         <button class="follow-btn" type="button" data-target="There are some books, a pen and a pencil on the desk." data-panel="p-s-021">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>some 用于肯定句 · some 表示"一些"，用于肯定句，后面接可数名词复数或不可数名词都行。</div>
@@ -262,7 +270,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">他们上午四节课，下午两节。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">他们上午四节课，下午两节。</span></span>
         <button class="follow-btn" type="button" data-target="They have four lessons in the morning and two in the afternoon." data-panel="p-s-022">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>in + 一天中的时段 · 上午、下午这类时段前用 in the；具体某一天用 on。</div>
@@ -277,7 +285,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">班主任问班长 Bill 为什么没来上学。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">班主任问班长 Bill 为什么没来上学。</span></span>
         <button class="follow-btn" type="button" data-target="Our class teacher asked the monitor why Bill didn't come to school." data-panel="p-s-023">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>宾语从句（疑问词引导） · asked 后面接一个句子作宾语，要用陈述语序：why Bill didn't come，不是 didn't Bill come。</div>
@@ -292,7 +300,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">Green 老师四年前教我们英语。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">Green 老师四年前教我们英语。</span></span>
         <button class="follow-btn" type="button" data-target="Miss Green taught us English four years ago." data-panel="p-s-024">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>teach sb. sth. 双宾语 · teach 后面跟"人 + 东西"：us 是间接宾语，English 是直接宾语。</div>
@@ -307,7 +315,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">Tom 离开教室时从不忘关灯。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">Tom 离开教室时从不忘关灯。</span></span>
         <button class="follow-btn" type="button" data-target="Tom never forgets to turn off the lights when he leaves the classroom." data-panel="p-s-025">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>forget to do sth. · forget to do 是"忘了去做（还没做）"，forget doing 是"忘了做过"。</div>
@@ -322,7 +330,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我做完作业，然后休息了一会儿。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我做完作业，然后休息了一会儿。</span></span>
         <button class="follow-btn" type="button" data-target="I finished doing my homework and then I had a rest." data-panel="p-s-026">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>finish doing sth. · finish 后面接动名词 doing，不能接 to do。</div>
@@ -337,7 +345,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">祝你考试一切顺利。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">祝你考试一切顺利。</span></span>
         <button class="follow-btn" type="button" data-target="Wish you every success in your exams." data-panel="p-s-027">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>Wish you + 名词 · 祝句型，Wish you 后面直接跟名词；success 不可数，every success 表示"事事顺利"。</div>
@@ -352,7 +360,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">Jane 确信她把钱包落在教室了。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">Jane 确信她把钱包落在教室了。</span></span>
         <button class="follow-btn" type="button" data-target="Jane was sure that she had left her wallet in the classroom." data-panel="p-s-028">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>过去完成时 · had done 表示"更早发生的事"：丢钱包发生在"确信"之前。</div>
@@ -367,7 +375,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">据说我们校报一周出一期。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">据说我们校报一周出一期。</span></span>
         <button class="follow-btn" type="button" data-target="It's said that our school's paper comes out once a week." data-panel="p-s-029">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>It's said that 句型 · It's said that 表示"据说"，it 是形式主语，真正的内容在后面。</div>
@@ -382,7 +390,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我觉得学校生活充满欢笑。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我觉得学校生活充满欢笑。</span></span>
         <button class="follow-btn" type="button" data-target="I think our school life is full of laughing." data-panel="p-s-030">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>be full of · be full of 表示"充满"，of 后面接名词或动名词。</div>

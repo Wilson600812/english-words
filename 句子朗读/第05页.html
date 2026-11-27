@@ -84,13 +84,21 @@
   .spk.playing { background: var(--btn); color: var(--btn-ink); border-color: var(--btn); }
   .spk.loading { opacity: .4; }
   /* ===== 显示模式：只英 / 只中，音频不受影响 ===== */
+  /* 句子页 */
   body.only-en .s-zh { display: none; }
   body.only-zh .s-en { display: none; }
   body.only-en .s-gram, body.only-zh .s-gram { display: none; }
-  /* 只显示英文时，中文行只剩「跟读」，把它靠左收拢，别孤零零挂在右边 */
-  body.only-en .row-line .s-gap { display: none; }
-  body.only-en .row-line .line-text { display: none; }
-  body.only-en .row-line .follow-btn { margin-left: 0; }
+  /* 只显示英文时，中文行整块收起，跟读按钮靠左，别孤零零挂在右边 */
+  body.only-en .zh-line { display: none; }
+  body.only-en .s-gap { display: none; }
+  body.only-en .zh-line ~ .follow-btn { margin-left: 0; }
+  /* 单词页：只英藏中文，只中藏英文（单词、音标、词性、英文释义、例句） */
+  body.only-en .word-card .zh,
+  body.only-en .word-card .zh2 { display: none; }
+  body.only-zh .word-card .word,
+  body.only-zh .word-card .phon,
+  body.only-zh .word-card .pos,
+  body.only-zh .word-card .en { display: none; }
   .follow-btn {
     min-height: 26px;
     padding: 2px 10px;
@@ -247,7 +255,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">学生们听到笑话忍不住笑了。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">学生们听到笑话忍不住笑了。</span></span>
         <button class="follow-btn" type="button" data-target="The students couldn't help laughing when they heard the joke." data-panel="p-s-041">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>can't help doing sth. · can't help doing 表示"忍不住做某事"，help 后面接动名词。</div>
@@ -262,7 +270,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我们累了，所以待在家里。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我们累了，所以待在家里。</span></span>
         <button class="follow-btn" type="button" data-target="We were tired so we stayed at home." data-panel="p-s-042">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>home 前不加介词 · home 作副词时前面不加 to：go home、stay at home。</div>
@@ -277,7 +285,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我很好奇他是怎么花这笔钱的。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我很好奇他是怎么花这笔钱的。</span></span>
         <button class="follow-btn" type="button" data-target="I was very curious about how he spent his money." data-panel="p-s-043">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>be curious about + 从句 · curious about 后面接名词或从句；how 引导的从句用陈述语序。</div>
@@ -292,7 +300,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">Tom 心情低落，因为他输了比赛。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">Tom 心情低落，因为他输了比赛。</span></span>
         <button class="follow-btn" type="button" data-target="Tom was in a blue mood because he lost the race." data-panel="p-s-044">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>in a + 形容词 + mood · 用 in 表示处于某种状态：in a blue mood 就是心情低落。</div>
@@ -307,7 +315,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我们打算请叔叔、阿姨和表兄弟姐妹来吃饭。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我们打算请叔叔、阿姨和表兄弟姐妹来吃饭。</span></span>
         <button class="follow-btn" type="button" data-target="We are going to invite my uncle, aunt and cousins for dinner." data-panel="p-s-045">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>invite sb. for dinner · invite sb. for dinner 表示"邀请某人吃饭"，for 后面接事由。</div>
@@ -322,7 +330,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">谢谢你的晚饭邀请，但我来不了。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">谢谢你的晚饭邀请，但我来不了。</span></span>
         <button class="follow-btn" type="button" data-target="Thanks for your invitation to have dinner but I can't come." data-panel="p-s-046">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>Thanks for + 名词/动名词 · Thanks for 后面接名词或 doing，表示"感谢某事"。</div>
@@ -337,7 +345,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">听到这个我很难过。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">听到这个我很难过。</span></span>
         <button class="follow-btn" type="button" data-target="I'm sorry to hear that." data-panel="p-s-047">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>形容词 + to do 表原因 · 形容词后面接 to do，说明为什么会有这种感受。</div>
@@ -352,7 +360,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">每层书架上，书都按从小到大排好。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">每层书架上，书都按从小到大排好。</span></span>
         <button class="follow-btn" type="button" data-target="On each shelf, the books are lined up in order from smallest to largest." data-panel="p-s-048">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>被动语态 be + 过去分词 · 书是被排列的，所以用被动：are lined up。</div>
@@ -367,7 +375,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我们到 Ted 家时，他的狗 Guinness 来迎接我们。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我们到 Ted 家时，他的狗 Guinness 来迎接我们。</span></span>
         <button class="follow-btn" type="button" data-target="When we arrived at Ted's house, his dog Guinness welcomed us." data-panel="p-s-049">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>arrive at / arrive in · arrive at 接小地方（房子、车站），arrive in 接大地方（城市、国家）。</div>
@@ -382,7 +390,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">Jack，我的一个好朋友，会来跟我们一起玩。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">Jack，我的一个好朋友，会来跟我们一起玩。</span></span>
         <button class="follow-btn" type="button" data-target="Jack, a close friend of mine, will come and join us in the game." data-panel="p-s-050">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>同位语 · 两个逗号中间的名词短语解释前面的 Jack，叫同位语。</div>

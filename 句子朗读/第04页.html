@@ -84,13 +84,21 @@
   .spk.playing { background: var(--btn); color: var(--btn-ink); border-color: var(--btn); }
   .spk.loading { opacity: .4; }
   /* ===== 显示模式：只英 / 只中，音频不受影响 ===== */
+  /* 句子页 */
   body.only-en .s-zh { display: none; }
   body.only-zh .s-en { display: none; }
   body.only-en .s-gram, body.only-zh .s-gram { display: none; }
-  /* 只显示英文时，中文行只剩「跟读」，把它靠左收拢，别孤零零挂在右边 */
-  body.only-en .row-line .s-gap { display: none; }
-  body.only-en .row-line .line-text { display: none; }
-  body.only-en .row-line .follow-btn { margin-left: 0; }
+  /* 只显示英文时，中文行整块收起，跟读按钮靠左，别孤零零挂在右边 */
+  body.only-en .zh-line { display: none; }
+  body.only-en .s-gap { display: none; }
+  body.only-en .zh-line ~ .follow-btn { margin-left: 0; }
+  /* 单词页：只英藏中文，只中藏英文（单词、音标、词性、英文释义、例句） */
+  body.only-en .word-card .zh,
+  body.only-en .word-card .zh2 { display: none; }
+  body.only-zh .word-card .word,
+  body.only-zh .word-card .phon,
+  body.only-zh .word-card .pos,
+  body.only-zh .word-card .en { display: none; }
   .follow-btn {
     min-height: 26px;
     padding: 2px 10px;
@@ -247,7 +255,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我们很快就要离开小学，今年九月开始上中学。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我们很快就要离开小学，今年九月开始上中学。</span></span>
         <button class="follow-btn" type="button" data-target="We're going to leave our primary school soon and start middle school this September." data-panel="p-s-031">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>be going to 后面并列两个动作 · be going to 后面用 and 连接两个动词，第二个前面的 to 可以省略。</div>
@@ -262,7 +270,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我喜欢足球、阅读、游泳和唱歌。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我喜欢足球、阅读、游泳和唱歌。</span></span>
         <button class="follow-btn" type="button" data-target="I like football, reading, swimming and singing songs." data-panel="p-s-032">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>like + 名词/动名词并列 · like 后面接名词或动名词都行，并列时形式要保持一致。</div>
@@ -277,7 +285,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">夏天很热，所以我喜欢去游泳。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">夏天很热，所以我喜欢去游泳。</span></span>
         <button class="follow-btn" type="button" data-target="It's very hot in summer so I like to go swimming." data-panel="p-s-033">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>so 表示结果 · so 连接结果：前面是原因，后面是结果。</div>
@@ -292,7 +300,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">听，女孩子们正在音乐教室唱歌。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">听，女孩子们正在音乐教室唱歌。</span></span>
         <button class="follow-btn" type="button" data-target="Listen, the girls are singing in the music room." data-panel="p-s-034">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>定冠词 the 的特指用法 · the 指双方都知道的那个：那些女孩、那间音乐教室。</div>
@@ -307,7 +315,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">她五岁开始学钢琴。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">她五岁开始学钢琴。</span></span>
         <button class="follow-btn" type="button" data-target="She began to learn the piano at the age of five." data-panel="p-s-035">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>at the age of + 年龄 · at the age of 表示"在……岁时"。</div>
@@ -322,7 +330,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">这里有一个关于空气和水的故事。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">这里有一个关于空气和水的故事。</span></span>
         <button class="follow-btn" type="button" data-target="Here is a story about air and water." data-panel="p-s-036">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>Here is 倒装句 · Here is 后面跟名词，表示"这就是／这里有"，是倒装语序。</div>
@@ -337,7 +345,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">下周日我们要办一场英语晚会。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">下周日我们要办一场英语晚会。</span></span>
         <button class="follow-btn" type="button" data-target="We will have an English party next Sunday." data-panel="p-s-037">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>a / an 的区别 · 看的是音素不是字母：English 以元音音素开头，用 an。</div>
@@ -352,7 +360,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我们在妈妈四十岁生日时给她办了个惊喜派对。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我们在妈妈四十岁生日时给她办了个惊喜派对。</span></span>
         <button class="follow-btn" type="button" data-target="We gave mum a surprising party on her 40th birthday." data-panel="p-s-038">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>on + 具体某一天 · on 用在具体的某一天或某个场合（生日、星期几）；上午下午用 in the。</div>
@@ -367,7 +375,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">今天早上我和 Tina 在公园放新风筝，可公园里没有风。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">今天早上我和 Tina 在公园放新风筝，可公园里没有风。</span></span>
         <button class="follow-btn" type="button" data-target="This morning Tina and I flew my new kite in the park, but it wasn't windy in the park." data-panel="p-s-039">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>this morning 配一般过去时 · this morning 指已经过去的今天早上，动词用过去式。</div>
@@ -382,7 +390,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">你帮我弄到音乐会的票，真是太好了。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">你帮我弄到音乐会的票，真是太好了。</span></span>
         <button class="follow-btn" type="button" data-target="It's very kind of you to help me get the ticket for the concert." data-panel="p-s-040">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>It's + adj. + of sb. + to do · 形容人的品质（kind、nice）时用 of sb.，句型是 It's kind of you to do sth.。</div>

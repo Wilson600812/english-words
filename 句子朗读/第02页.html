@@ -84,13 +84,21 @@
   .spk.playing { background: var(--btn); color: var(--btn-ink); border-color: var(--btn); }
   .spk.loading { opacity: .4; }
   /* ===== 显示模式：只英 / 只中，音频不受影响 ===== */
+  /* 句子页 */
   body.only-en .s-zh { display: none; }
   body.only-zh .s-en { display: none; }
   body.only-en .s-gram, body.only-zh .s-gram { display: none; }
-  /* 只显示英文时，中文行只剩「跟读」，把它靠左收拢，别孤零零挂在右边 */
-  body.only-en .row-line .s-gap { display: none; }
-  body.only-en .row-line .line-text { display: none; }
-  body.only-en .row-line .follow-btn { margin-left: 0; }
+  /* 只显示英文时，中文行整块收起，跟读按钮靠左，别孤零零挂在右边 */
+  body.only-en .zh-line { display: none; }
+  body.only-en .s-gap { display: none; }
+  body.only-en .zh-line ~ .follow-btn { margin-left: 0; }
+  /* 单词页：只英藏中文，只中藏英文（单词、音标、词性、英文释义、例句） */
+  body.only-en .word-card .zh,
+  body.only-en .word-card .zh2 { display: none; }
+  body.only-zh .word-card .word,
+  body.only-zh .word-card .phon,
+  body.only-zh .word-card .pos,
+  body.only-zh .word-card .en { display: none; }
   .follow-btn {
     min-height: 26px;
     padding: 2px 10px;
@@ -247,7 +255,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">她正在做晚饭，这时电话响了。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">她正在做晚饭，这时电话响了。</span></span>
         <button class="follow-btn" type="button" data-target="She was making dinner when the phone rang." data-panel="p-s-011">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>过去进行时 + when · 过去进行时表示"那时正在做"，when 后面接一个突然发生的过去动作。</div>
@@ -262,7 +270,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">午饭后，Anne 擦了桌子、洗了碗。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">午饭后，Anne 擦了桌子、洗了碗。</span></span>
         <button class="follow-btn" type="button" data-target="After lunch, Anne cleaned the table and washed dishes." data-panel="p-s-012">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>and 连接两个并列的过去动作 · 同一个主语后面的两个动作，用 and 连起来，时态保持一致。</div>
@@ -277,7 +285,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我要在网上学做饭。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我要在网上学做饭。</span></span>
         <button class="follow-btn" type="button" data-target="I'll learn about cooking on the internet." data-panel="p-s-013">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>learn about sth. · learn about 表示"了解、学习某方面的知识"，about 后面接名词或动名词。</div>
@@ -292,7 +300,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">中国人很擅长打乒乓球，这也是我最喜欢的运动。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">中国人很擅长打乒乓球，这也是我最喜欢的运动。</span></span>
         <button class="follow-btn" type="button" data-target="Chinese people are very good at table tennis and it's our favourite sport." data-panel="p-s-014">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>be good at + 名词/动名词 · be good at 表示"擅长"，at 是介词，后面接名词或 doing。</div>
@@ -307,7 +315,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">他是世界上个子最高的篮球运动员之一。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">他是世界上个子最高的篮球运动员之一。</span></span>
         <button class="follow-btn" type="button" data-target="He is one of the tallest basketball players in the world." data-panel="p-s-015">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>one of the + 最高级 + 复数名词 · one of 后面必须跟复数名词，形容词用最高级。</div>
@@ -322,7 +330,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">他要去附近的山谷参加山地车比赛。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">他要去附近的山谷参加山地车比赛。</span></span>
         <button class="follow-btn" type="button" data-target="He's going to the nearby valley to take part in a mountain bike race." data-panel="p-s-016">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>动词不定式表目的 · to take part in 说明去山谷的目的，to do 可以表示"为了做某事"。</div>
@@ -337,7 +345,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我最喜欢的科目是科学，因为课上可以做实验。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我最喜欢的科目是科学，因为课上可以做实验。</span></span>
         <button class="follow-btn" type="button" data-target="My favourite subject is science because I can do experiments during the class." data-panel="p-s-017">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>because 引导原因状语从句 · because 后面接一个完整句子，说明原因。</div>
@@ -352,7 +360,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">想让梦想成真，你就应该努力学习。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">想让梦想成真，你就应该努力学习。</span></span>
         <button class="follow-btn" type="button" data-target="To make your dream come true, you should study hard." data-panel="p-s-018">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>should + 动词原形 · should 表示"应该"，后面直接跟动词原形。</div>
@@ -367,7 +375,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我们在课上课下互相学习。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我们在课上课下互相学习。</span></span>
         <button class="follow-btn" type="button" data-target="We learned from each other in and out of class." data-panel="p-s-019">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>each other 相互代词 · each other 表示"彼此、互相"，主语要用复数。</div>
@@ -382,7 +390,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">这本词典很便宜，只花了我 12 美元。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">这本词典很便宜，只花了我 12 美元。</span></span>
         <button class="follow-btn" type="button" data-target="This dictionary was very cheap and it only cost me 12 dollars." data-panel="p-s-020">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>cost 的用法 · cost 表示"花费"，主语是东西，结构是 sth. costs (sb.) + 钱。</div>

@@ -84,13 +84,21 @@
   .spk.playing { background: var(--btn); color: var(--btn-ink); border-color: var(--btn); }
   .spk.loading { opacity: .4; }
   /* ===== 显示模式：只英 / 只中，音频不受影响 ===== */
+  /* 句子页 */
   body.only-en .s-zh { display: none; }
   body.only-zh .s-en { display: none; }
   body.only-en .s-gram, body.only-zh .s-gram { display: none; }
-  /* 只显示英文时，中文行只剩「跟读」，把它靠左收拢，别孤零零挂在右边 */
-  body.only-en .row-line .s-gap { display: none; }
-  body.only-en .row-line .line-text { display: none; }
-  body.only-en .row-line .follow-btn { margin-left: 0; }
+  /* 只显示英文时，中文行整块收起，跟读按钮靠左，别孤零零挂在右边 */
+  body.only-en .zh-line { display: none; }
+  body.only-en .s-gap { display: none; }
+  body.only-en .zh-line ~ .follow-btn { margin-left: 0; }
+  /* 单词页：只英藏中文，只中藏英文（单词、音标、词性、英文释义、例句） */
+  body.only-en .word-card .zh,
+  body.only-en .word-card .zh2 { display: none; }
+  body.only-zh .word-card .word,
+  body.only-zh .word-card .phon,
+  body.only-zh .word-card .pos,
+  body.only-zh .word-card .en { display: none; }
   .follow-btn {
     min-height: 26px;
     padding: 2px 10px;
@@ -247,7 +255,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">天气很热，所以冰变成了水。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">天气很热，所以冰变成了水。</span></span>
         <button class="follow-btn" type="button" data-target="The weather is very hot so the ice turns into water." data-panel="p-s-081">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>turn into 变成 · turn into 表示"变成"，into 不能换成 to。</div>
@@ -262,7 +270,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">天气预报说傍晚会有雨。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">天气预报说傍晚会有雨。</span></span>
         <button class="follow-btn" type="button" data-target="The weather forecast says it will be rainy in the late afternoon." data-panel="p-s-082">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>宾语从句（陈述句，that 省略） · says 后面接一个完整句子作宾语，that 可以省略。</div>
@@ -277,7 +285,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">春天人们种树，秋天农民忙着收割。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">春天人们种树，秋天农民忙着收割。</span></span>
         <button class="follow-btn" type="button" data-target="People plant trees in spring and farmers are busy harvesting in autumn." data-panel="p-s-083">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>be busy doing sth. · be busy doing 表示"忙着做某事"，用动名词。</div>
@@ -292,7 +300,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">春天来临时，冬天睡觉的动物开始醒来。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">春天来临时，冬天睡觉的动物开始醒来。</span></span>
         <button class="follow-btn" type="button" data-target="When spring comes, the animals that sleep in winter start waking up." data-panel="p-s-084">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>定语从句 that 修饰名词 · that 引导的句子修饰 animals，说明是哪些动物。</div>
@@ -307,7 +315,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">这头大象真大啊！</span></span>
+        <span class="line-text zh-line"><span class="s-zh">这头大象真大啊！</span></span>
         <button class="follow-btn" type="button" data-target="What a big elephant it is!" data-panel="p-s-085">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>What 引导的感叹句 · 结构是 What + a/an + 形容词 + 名词 + 主语 + be。</div>
@@ -322,7 +330,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">你能看到多达一万五千只蝴蝶停在一根树枝上。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">你能看到多达一万五千只蝴蝶停在一根树枝上。</span></span>
         <button class="follow-btn" type="button" data-target="You can see as many as 15,000 butterflies sitting on one branch." data-panel="p-s-086">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>as many as 多达 · as many as 强调数量多，后面接可数名词复数。</div>
@@ -337,7 +345,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">Joy 在家养了两只宠物，每天晚饭后喂它们。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">Joy 在家养了两只宠物，每天晚饭后喂它们。</span></span>
         <button class="follow-btn" type="button" data-target="Joy keeps two pets at home and she feeds them after dinner every day." data-panel="p-s-087">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>人称代词宾格 · feed 后面用宾格 them（they 的宾格形式）。</div>
@@ -352,7 +360,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">轮到你遛狗了。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">轮到你遛狗了。</span></span>
         <button class="follow-btn" type="button" data-target="It's your turn to walk the dog." data-panel="p-s-088">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>It's one's turn to do · 表示"轮到某人做某事"，用 It's your turn to do。</div>
@@ -367,7 +375,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">这个女孩想给妈妈买一朵花。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">这个女孩想给妈妈买一朵花。</span></span>
         <button class="follow-btn" type="button" data-target="The girl wants to buy a flower for her mum." data-panel="p-s-089">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>buy sth. for sb. · buy sth. for sb. 表示"给某人买某物"，也可以说 buy sb. sth.。</div>
@@ -382,7 +390,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">现在野外只剩大约一万头蓝鲸了。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">现在野外只剩大约一万头蓝鲸了。</span></span>
         <button class="follow-btn" type="button" data-target="Now there are only about 10,000 blue whales in the wild." data-panel="p-s-090">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>in the wild 在野外 · in the wild 指野生动物生活的自然环境。</div>

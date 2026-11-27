@@ -84,13 +84,21 @@
   .spk.playing { background: var(--btn); color: var(--btn-ink); border-color: var(--btn); }
   .spk.loading { opacity: .4; }
   /* ===== 显示模式：只英 / 只中，音频不受影响 ===== */
+  /* 句子页 */
   body.only-en .s-zh { display: none; }
   body.only-zh .s-en { display: none; }
   body.only-en .s-gram, body.only-zh .s-gram { display: none; }
-  /* 只显示英文时，中文行只剩「跟读」，把它靠左收拢，别孤零零挂在右边 */
-  body.only-en .row-line .s-gap { display: none; }
-  body.only-en .row-line .line-text { display: none; }
-  body.only-en .row-line .follow-btn { margin-left: 0; }
+  /* 只显示英文时，中文行整块收起，跟读按钮靠左，别孤零零挂在右边 */
+  body.only-en .zh-line { display: none; }
+  body.only-en .s-gap { display: none; }
+  body.only-en .zh-line ~ .follow-btn { margin-left: 0; }
+  /* 单词页：只英藏中文，只中藏英文（单词、音标、词性、英文释义、例句） */
+  body.only-en .word-card .zh,
+  body.only-en .word-card .zh2 { display: none; }
+  body.only-zh .word-card .word,
+  body.only-zh .word-card .phon,
+  body.only-zh .word-card .pos,
+  body.only-zh .word-card .en { display: none; }
   .follow-btn {
     min-height: 26px;
     padding: 2px 10px;
@@ -247,7 +255,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我们该吃午饭了。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我们该吃午饭了。</span></span>
         <button class="follow-btn" type="button" data-target="It's time for us to have lunch." data-panel="p-s-001">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>It's time for sb. to do sth. · 「该做某事了」。for 后面跟人，to 后面跟动词原形。</div>
@@ -262,7 +270,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">她早餐吃了一个鸡蛋、一片面包，还喝了点牛奶。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">她早餐吃了一个鸡蛋、一片面包，还喝了点牛奶。</span></span>
         <button class="follow-btn" type="button" data-target="She had an egg, a piece of bread and some milk for breakfast." data-panel="p-s-002">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>一般过去时（have 的过去式） · have / has 的过去式都是 had，表示过去发生的事。</div>
@@ -277,7 +285,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">你喜欢哪种水果？苹果还是橘子？</span></span>
+        <span class="line-text zh-line"><span class="s-zh">你喜欢哪种水果？苹果还是橘子？</span></span>
         <button class="follow-btn" type="button" data-target="Which fruit do you like? Apples or oranges?" data-panel="p-s-003">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>特殊疑问句 Which · Which + 名词，在有限的范围里选一个；选项之间用 or 连接。</div>
@@ -292,7 +300,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">鱼汤太好喝了，客人都想再来一点。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">鱼汤太好喝了，客人都想再来一点。</span></span>
         <button class="follow-btn" type="button" data-target="The fish soup tasted so good that the guests asked for more." data-panel="p-s-004">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>so + 形容词 + that 从句 · 表示「太……以至于……」。taste 是系动词，后面直接跟形容词 good。</div>
@@ -307,7 +315,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">她通常早上七点半起床。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">她通常早上七点半起床。</span></span>
         <button class="follow-btn" type="button" data-target="She usually gets up at half past seven in the morning." data-panel="p-s-005">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>一般现在时第三人称单数 · 主语是 she，动词要加 -s（get → gets）；频率副词 usually 放在实义动词前面。</div>
@@ -322,7 +330,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我爷爷以前晚饭后会在花园里散步。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我爷爷以前晚饭后会在花园里散步。</span></span>
         <button class="follow-btn" type="button" data-target="My grandpa used to have a walk in the garden after supper." data-panel="p-s-006">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>used to + 动词原形 · 表示「过去常常做」，暗示现在不这样了。</div>
@@ -337,7 +345,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">周末，有些人喜欢待在家里，另一些人喜欢去散步或者野餐。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">周末，有些人喜欢待在家里，另一些人喜欢去散步或者野餐。</span></span>
         <button class="follow-btn" type="button" data-target="At weekends, some people like to stay at home, but others like to go for a walk or have a picnic." data-panel="p-s-007">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>some… but others… · 一部分人……另一部分人……；like to do sth. 喜欢做某事；or 连接两个并列的动作。</div>
@@ -352,7 +360,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我昨晚给你打电话，可是没人接。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我昨晚给你打电话，可是没人接。</span></span>
         <button class="follow-btn" type="button" data-target="I called you yesterday evening but there was no answer." data-panel="p-s-008">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>一般过去时 + there be 的过去式 · called 是 call 的过去式；there was 是 there is 的过去式，后面接单数。</div>
@@ -367,7 +375,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">星期六我要帮妈妈做家务。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">星期六我要帮妈妈做家务。</span></span>
         <button class="follow-btn" type="button" data-target="On Saturday, I will help my mom with the housework." data-panel="p-s-009">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>一般将来时 will + 动词原形 · 表示将来要做的事；help sb. with sth. 帮某人做某事。</div>
@@ -382,7 +390,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">孩子们一边擦窗户一边听收音机。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">孩子们一边擦窗户一边听收音机。</span></span>
         <button class="follow-btn" type="button" data-target="The children are listening to the radio while they are cleaning the windows." data-panel="p-s-010">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>现在进行时 + while · be + doing 表示正在做；while 连接两个同时发生的动作。</div>

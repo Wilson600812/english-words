@@ -84,13 +84,21 @@
   .spk.playing { background: var(--btn); color: var(--btn-ink); border-color: var(--btn); }
   .spk.loading { opacity: .4; }
   /* ===== 显示模式：只英 / 只中，音频不受影响 ===== */
+  /* 句子页 */
   body.only-en .s-zh { display: none; }
   body.only-zh .s-en { display: none; }
   body.only-en .s-gram, body.only-zh .s-gram { display: none; }
-  /* 只显示英文时，中文行只剩「跟读」，把它靠左收拢，别孤零零挂在右边 */
-  body.only-en .row-line .s-gap { display: none; }
-  body.only-en .row-line .line-text { display: none; }
-  body.only-en .row-line .follow-btn { margin-left: 0; }
+  /* 只显示英文时，中文行整块收起，跟读按钮靠左，别孤零零挂在右边 */
+  body.only-en .zh-line { display: none; }
+  body.only-en .s-gap { display: none; }
+  body.only-en .zh-line ~ .follow-btn { margin-left: 0; }
+  /* 单词页：只英藏中文，只中藏英文（单词、音标、词性、英文释义、例句） */
+  body.only-en .word-card .zh,
+  body.only-en .word-card .zh2 { display: none; }
+  body.only-zh .word-card .word,
+  body.only-zh .word-card .phon,
+  body.only-zh .word-card .pos,
+  body.only-zh .word-card .en { display: none; }
   .follow-btn {
     min-height: 26px;
     padding: 2px 10px;
@@ -247,7 +255,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我们每天走路去学校要半小时。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我们每天走路去学校要半小时。</span></span>
         <button class="follow-btn" type="button" data-target="It takes us half an hour to walk to school every day." data-panel="p-s-071">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>It takes sb. + 时间 + to do · it 是形式主语，真正的内容是 to walk to school。</div>
@@ -262,7 +270,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">从天津来的火车一小时前到了。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">从天津来的火车一小时前到了。</span></span>
         <button class="follow-btn" type="button" data-target="The train from Tianjin arrived an hour ago." data-panel="p-s-072">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>ago 配一般过去时 · ago 表示"以前"，句子用过去式。</div>
@@ -277,7 +285,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">你沿着这条街走，然后在第一个路口右转。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">你沿着这条街走，然后在第一个路口右转。</span></span>
         <button class="follow-btn" type="button" data-target="You can go down the street and then turn right at the first corner." data-panel="p-s-073">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>在路口转弯用 at · "在第一个路口"是 at the first corner，用 at 不用 in。</div>
@@ -292,7 +300,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">在医院、图书馆、电影院这样的公共场所，我们不能大声说话。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">在医院、图书馆、电影院这样的公共场所，我们不能大声说话。</span></span>
         <button class="follow-btn" type="button" data-target="We mustn't talk or speak loudly in public places like hospitals, libraries or cinemas." data-panel="p-s-074">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>like 作介词表示"像……这样" · like 在这里不是"喜欢"，是介词，用来举例。</div>
@@ -307,7 +315,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">海南在中国南部。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">海南在中国南部。</span></span>
         <button class="follow-btn" type="button" data-target="Hainan is in the south of China." data-panel="p-s-075">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>in the + 方位 + of · 表示方位用 in the south / north / east / west of。</div>
@@ -322,7 +330,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">书店在图书馆旁边。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">书店在图书馆旁边。</span></span>
         <button class="follow-btn" type="button" data-target="The bookstore is next to the library." data-panel="p-s-076">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>next to 方位介词 · next to 表示"紧挨着、在……旁边"。</div>
@@ -337,7 +345,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我奶奶和叔叔住在一个不太远的村子里。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我奶奶和叔叔住在一个不太远的村子里。</span></span>
         <button class="follow-btn" type="button" data-target="My grandma lives with my uncle in a village not too far away." data-panel="p-s-077">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>live with sb. · with 表示"和……一起"。</div>
@@ -352,7 +360,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">长时间坐在电脑前对健康有害。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">长时间坐在电脑前对健康有害。</span></span>
         <button class="follow-btn" type="button" data-target="Sitting for a long time at the computer is bad for our health." data-panel="p-s-078">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>动名词作主语 · Sitting... 这个动名词短语当主语，谓语用单数 is。</div>
@@ -367,7 +375,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">人们感冒或咳嗽时常常需要吃药。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">人们感冒或咳嗽时常常需要吃药。</span></span>
         <button class="follow-btn" type="button" data-target="People often need to take some medicine when they catch a cold or a cough." data-panel="p-s-079">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>catch a cold 固定搭配 · 感冒是 catch a cold，中间的 a 不能省。</div>
@@ -382,7 +390,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">西安将会又冷又刮风，三亚将会晴暖。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">西安将会又冷又刮风，三亚将会晴暖。</span></span>
         <button class="follow-btn" type="button" data-target="It will be cold and windy in Xi'an and it will be sunny and warm in Sanya." data-panel="p-s-080">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>will be + 形容词 · will be 后面接形容词，描述将来的天气或状态。</div>

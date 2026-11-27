@@ -84,13 +84,21 @@
   .spk.playing { background: var(--btn); color: var(--btn-ink); border-color: var(--btn); }
   .spk.loading { opacity: .4; }
   /* ===== 显示模式：只英 / 只中，音频不受影响 ===== */
+  /* 句子页 */
   body.only-en .s-zh { display: none; }
   body.only-zh .s-en { display: none; }
   body.only-en .s-gram, body.only-zh .s-gram { display: none; }
-  /* 只显示英文时，中文行只剩「跟读」，把它靠左收拢，别孤零零挂在右边 */
-  body.only-en .row-line .s-gap { display: none; }
-  body.only-en .row-line .line-text { display: none; }
-  body.only-en .row-line .follow-btn { margin-left: 0; }
+  /* 只显示英文时，中文行整块收起，跟读按钮靠左，别孤零零挂在右边 */
+  body.only-en .zh-line { display: none; }
+  body.only-en .s-gap { display: none; }
+  body.only-en .zh-line ~ .follow-btn { margin-left: 0; }
+  /* 单词页：只英藏中文，只中藏英文（单词、音标、词性、英文释义、例句） */
+  body.only-en .word-card .zh,
+  body.only-en .word-card .zh2 { display: none; }
+  body.only-zh .word-card .word,
+  body.only-zh .word-card .phon,
+  body.only-zh .word-card .pos,
+  body.only-zh .word-card .en { display: none; }
   .follow-btn {
     min-height: 26px;
     padding: 2px 10px;
@@ -247,7 +255,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">她有一副漂亮的粉色手套。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">她有一副漂亮的粉色手套。</span></span>
         <button class="follow-btn" type="button" data-target="She has a nice pair of pink gloves." data-panel="p-s-061">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>多个形容词的顺序 · 描述看法或评价的词（nice）放前面，颜色放后面。</div>
@@ -262,7 +270,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">在中国，中秋节吃月饼是传统。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">在中国，中秋节吃月饼是传统。</span></span>
         <button class="follow-btn" type="button" data-target="It's traditional to eat mooncakes on Mid-Autumn Day in China." data-panel="p-s-062">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>It's + 形容词 + to do（形式主语） · 真正的主语是 to eat mooncakes，it 只是占位。</div>
@@ -277,7 +285,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">明天妈妈要带我去世界公园，了解世界各地的名胜。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">明天妈妈要带我去世界公园，了解世界各地的名胜。</span></span>
         <button class="follow-btn" type="button" data-target="My mother will take me to the world park to learn about the famous places around the world tomorrow." data-panel="p-s-063">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>take sb. to + 地点 · take sb. to a place 表示"带某人去某地"。</div>
@@ -292,7 +300,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">去年暑假，我和父母去了北京。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">去年暑假，我和父母去了北京。</span></span>
         <button class="follow-btn" type="button" data-target="Last summer vacation, I went to Beijing with my parents." data-panel="p-s-064">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>last + 时间，配一般过去时 · last 开头的时间表示过去，动词要用过去式。</div>
@@ -307,7 +315,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">上周六我们去了科学博物馆。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">上周六我们去了科学博物馆。</span></span>
         <button class="follow-btn" type="button" data-target="We went to the science museum last Saturday." data-panel="p-s-065">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>机构名称前加 the · 博物馆、剧院这类机构名称前通常加 the。</div>
@@ -322,7 +330,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">过马路时，我们必须遵守交通规则。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">过马路时，我们必须遵守交通规则。</span></span>
         <button class="follow-btn" type="button" data-target="When we cross the road, we must follow the traffic rules." data-panel="p-s-066">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>must + 动词原形 · must 表示"必须"，后面直接跟动词原形。</div>
@@ -337,7 +345,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">为了安全，你可以在人行道上等，注意来往的汽车和自行车。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">为了安全，你可以在人行道上等，注意来往的汽车和自行车。</span></span>
         <button class="follow-btn" type="button" data-target="To keep safe, you can wait on the pavement and look out for cars and bikes." data-panel="p-s-067">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>look out for 短语 · look out for 表示"当心、留意"。</div>
@@ -352,7 +360,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">你不能在马路上踢足球，因为车和自行车很多。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">你不能在马路上踢足球，因为车和自行车很多。</span></span>
         <button class="follow-btn" type="button" data-target="You must not play football on the road because there are many cars and bikes." data-panel="p-s-068">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>must not 表示禁止 · must not 是"不许"，和 don't have to（不必）意思完全不同。</div>
@@ -367,7 +375,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我们八点在公交车站见吧。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我们八点在公交车站见吧。</span></span>
         <button class="follow-btn" type="button" data-target="Let's meet at the bus stop at eight o'clock." data-panel="p-s-069">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>Let's + 动词原形 · Let's = Let us，后面跟动词原形，表示"一起……吧"。</div>
@@ -382,7 +390,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">也许你可以骑自行车或坐公交，而不是开车。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">也许你可以骑自行车或坐公交，而不是开车。</span></span>
         <button class="follow-btn" type="button" data-target="Maybe you can ride a bike or take a bus instead of driving a car." data-panel="p-s-070">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>instead of + 动名词 · instead of 是介词短语，后面接名词或动名词。</div>

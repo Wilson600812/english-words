@@ -84,13 +84,21 @@
   .spk.playing { background: var(--btn); color: var(--btn-ink); border-color: var(--btn); }
   .spk.loading { opacity: .4; }
   /* ===== 显示模式：只英 / 只中，音频不受影响 ===== */
+  /* 句子页 */
   body.only-en .s-zh { display: none; }
   body.only-zh .s-en { display: none; }
   body.only-en .s-gram, body.only-zh .s-gram { display: none; }
-  /* 只显示英文时，中文行只剩「跟读」，把它靠左收拢，别孤零零挂在右边 */
-  body.only-en .row-line .s-gap { display: none; }
-  body.only-en .row-line .line-text { display: none; }
-  body.only-en .row-line .follow-btn { margin-left: 0; }
+  /* 只显示英文时，中文行整块收起，跟读按钮靠左，别孤零零挂在右边 */
+  body.only-en .zh-line { display: none; }
+  body.only-en .s-gap { display: none; }
+  body.only-en .zh-line ~ .follow-btn { margin-left: 0; }
+  /* 单词页：只英藏中文，只中藏英文（单词、音标、词性、英文释义、例句） */
+  body.only-en .word-card .zh,
+  body.only-en .word-card .zh2 { display: none; }
+  body.only-zh .word-card .word,
+  body.only-zh .word-card .phon,
+  body.only-zh .word-card .pos,
+  body.only-zh .word-card .en { display: none; }
   .follow-btn {
     min-height: 26px;
     padding: 2px 10px;
@@ -247,7 +255,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">大多数孩子从没见过大海。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">大多数孩子从没见过大海。</span></span>
         <button class="follow-btn" type="button" data-target="Most of the kids have never seen the sea." data-panel="p-s-091">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>现在完成时 have + 过去分词 · have/has + 过去分词表示"到现在为止的经历"，never 是"从未"。</div>
@@ -262,7 +270,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">那天的月亮又圆又亮。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">那天的月亮又圆又亮。</span></span>
         <button class="follow-btn" type="button" data-target="The moon is round and bright on that day." data-panel="p-s-092">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>两个形容词并列 · 两个形容词用 and 连起来，一起描述 the moon。</div>
@@ -277,7 +285,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">月亮一直绕着地球转。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">月亮一直绕着地球转。</span></span>
         <button class="follow-btn" type="button" data-target="The moon goes around the earth all the time." data-panel="p-s-093">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>一般现在时表客观规律 · 描述客观事实或规律用一般现在时，主语三单要加 -s。</div>
@@ -292,7 +300,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我们不应该到处乱扔垃圾。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我们不应该到处乱扔垃圾。</span></span>
         <button class="follow-btn" type="button" data-target="We shouldn't leave the rubbish anywhere." data-panel="p-s-094">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>shouldn't 不应该 · shouldn't 是 should not 的缩写，表示"不应该"。</div>
@@ -307,7 +315,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我们不该砍太多树，因为树木有助于保持空气清洁。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我们不该砍太多树，因为树木有助于保持空气清洁。</span></span>
         <button class="follow-btn" type="button" data-target="We should not cut down too many trees. Because trees help keep the air clean." data-panel="p-s-095">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>help (to) do sth. · help 后面接动词原形，带不带 to 都行。</div>
@@ -322,7 +330,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我们用塑料做袋子和瓶子，但太多塑料对地球有害。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我们用塑料做袋子和瓶子，但太多塑料对地球有害。</span></span>
         <button class="follow-btn" type="button" data-target="We use plastic to make bags and bottles. But too much plastic is bad for the earth." data-panel="p-s-096">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>use sth. to do sth. · use A to do B 表示"用 A 来做 B"。</div>
@@ -337,7 +345,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我们不该开那么多车，因为汽车消耗大量能源。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我们不该开那么多车，因为汽车消耗大量能源。</span></span>
         <button class="follow-btn" type="button" data-target="We should not drive so much because cars use a lot of energy." data-panel="p-s-097">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>a lot of 许多 · a lot of 既能修饰可数名词复数，也能修饰不可数名词。</div>
@@ -352,7 +360,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">机器人也能让生病的孩子振作起来。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">机器人也能让生病的孩子振作起来。</span></span>
         <button class="follow-btn" type="button" data-target="Robots can cheer up sick kids too." data-panel="p-s-098">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>cheer up 短语动词 · cheer up 表示"使振作、使高兴"。</div>
@@ -367,7 +375,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我们要去看一部关于太空旅行的电影。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我们要去看一部关于太空旅行的电影。</span></span>
         <button class="follow-btn" type="button" data-target="We're going to see a film about space travel." data-panel="p-s-099">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>about 表示"关于" · about 作介词表示"关于"，后面接名词。</div>
@@ -382,7 +390,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">他们将乘时光椅去火星旅行。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">他们将乘时光椅去火星旅行。</span></span>
         <button class="follow-btn" type="button" data-target="They will travel to Mars in a time chair." data-panel="p-s-100">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>travel to + 地点 · travel to a place 表示"去某地旅行"，to 表示方向。</div>

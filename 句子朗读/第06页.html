@@ -84,13 +84,21 @@
   .spk.playing { background: var(--btn); color: var(--btn-ink); border-color: var(--btn); }
   .spk.loading { opacity: .4; }
   /* ===== 显示模式：只英 / 只中，音频不受影响 ===== */
+  /* 句子页 */
   body.only-en .s-zh { display: none; }
   body.only-zh .s-en { display: none; }
   body.only-en .s-gram, body.only-zh .s-gram { display: none; }
-  /* 只显示英文时，中文行只剩「跟读」，把它靠左收拢，别孤零零挂在右边 */
-  body.only-en .row-line .s-gap { display: none; }
-  body.only-en .row-line .line-text { display: none; }
-  body.only-en .row-line .follow-btn { margin-left: 0; }
+  /* 只显示英文时，中文行整块收起，跟读按钮靠左，别孤零零挂在右边 */
+  body.only-en .zh-line { display: none; }
+  body.only-en .s-gap { display: none; }
+  body.only-en .zh-line ~ .follow-btn { margin-left: 0; }
+  /* 单词页：只英藏中文，只中藏英文（单词、音标、词性、英文释义、例句） */
+  body.only-en .word-card .zh,
+  body.only-en .word-card .zh2 { display: none; }
+  body.only-zh .word-card .word,
+  body.only-zh .word-card .phon,
+  body.only-zh .word-card .pos,
+  body.only-zh .word-card .en { display: none; }
   .follow-btn {
     min-height: 26px;
     padding: 2px 10px;
@@ -247,7 +255,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我爸爸抱着的那个是我姐姐 Tina。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我爸爸抱着的那个是我姐姐 Tina。</span></span>
         <button class="follow-btn" type="button" data-target="The one my dad carried is my older sister, Tina." data-panel="p-s-051">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>定语从句（省略连接词） · The one 后面跟一个句子来修饰它，中间省略了 that。</div>
@@ -262,7 +270,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我想像妈妈一样当医生，帮助更多的人。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我想像妈妈一样当医生，帮助更多的人。</span></span>
         <button class="follow-btn" type="button" data-target="I want to be a doctor like my mum and help more people." data-panel="p-s-052">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>want to do sth. · want 后面接 to do；like my mum 是介词短语，表示"像……一样"。</div>
@@ -277,7 +285,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">你给我写信真是太好了。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">你给我写信真是太好了。</span></span>
         <button class="follow-btn" type="button" data-target="It's very nice of you to write to me." data-panel="p-s-053">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>write to sb. · write to sb. 表示"给某人写信"，to 不能省略。</div>
@@ -292,7 +300,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">新老师个子不高，眼睛很大。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">新老师个子不高，眼睛很大。</span></span>
         <button class="follow-btn" type="button" data-target="The new teacher is short with big eyes." data-panel="p-s-054">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>with 表特征 · with 引导的短语说明特征，意思是"长着大眼睛"。</div>
@@ -307,7 +315,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">我们都喜欢他，因为他话少做得多。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">我们都喜欢他，因为他话少做得多。</span></span>
         <button class="follow-btn" type="button" data-target="We all like him because he says little but does much." data-panel="p-s-055">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>little / much 作代词 · little 和 much 在这里当名词用，表示"少"和"多"。</div>
@@ -322,7 +330,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">Joey 的头发比 Daisy 的短一点。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">Joey 的头发比 Daisy 的短一点。</span></span>
         <button class="follow-btn" type="button" data-target="Joey's hair is a little shorter than Daisy's." data-panel="p-s-056">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>比较级 + than；'s 所有格 · 比较级前加 a little 表示"一点"；Daisy's 后面省掉了 hair。</div>
@@ -337,7 +345,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">那个人很穷，但他很诚实。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">那个人很穷，但他很诚实。</span></span>
         <button class="follow-btn" type="button" data-target="The man was poor, but he was honest." data-panel="p-s-057">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>but 连接转折分句 · but 连接两个意思相反的句子。</div>
@@ -352,7 +360,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">很多人在网上不爱购物，因为看不到东西，也没法试衣服。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">很多人在网上不爱购物，因为看不到东西，也没法试衣服。</span></span>
         <button class="follow-btn" type="button" data-target="Many people don't like shopping on the internet because they can't see the things or try the clothes on." data-panel="p-s-058">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>否定句中用 or 连接并列成分 · 否定句里连接两个并列动作用 or，不用 and。</div>
@@ -367,7 +375,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">Ben 有两双运动鞋，但都很旧了。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">Ben 有两双运动鞋，但都很旧了。</span></span>
         <button class="follow-btn" type="button" data-target="Ben has two pairs of sports shoes, but they're old." data-panel="p-s-059">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>pair 作量词 · pair 是"双"，复数加 s：two pairs of shoes。</div>
@@ -382,7 +390,7 @@
       </div>
       <div class="row row-line">
         <span class="s-gap"></span>
-        <span class="line-text"><span class="s-zh">她穿上了她最喜欢的橙色连衣裙。</span></span>
+        <span class="line-text zh-line"><span class="s-zh">她穿上了她最喜欢的橙色连衣裙。</span></span>
         <button class="follow-btn" type="button" data-target="She put on her favourite orange dress." data-panel="p-s-060">跟读</button>
       </div>
       <div class="s-gram"><b>语法</b>put on 短语动词 · put on 表示"穿上"这个动作；代词作宾语要放中间，说 put it on。</div>
