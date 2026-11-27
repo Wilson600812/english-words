@@ -86,7 +86,11 @@
   /* ===== 显示模式：只英 / 只中，音频不受影响 ===== */
   body.only-en .s-zh { display: none; }
   body.only-zh .s-en { display: none; }
-  body.only-zh .s-gram { display: none; }
+  body.only-en .s-gram, body.only-zh .s-gram { display: none; }
+  /* 只显示英文时，中文行只剩「跟读」，把它靠左收拢，别孤零零挂在右边 */
+  body.only-en .row-line .s-gap { display: none; }
+  body.only-en .row-line .line-text { display: none; }
+  body.only-en .row-line .follow-btn { margin-left: 0; }
   .follow-btn {
     min-height: 26px;
     padding: 2px 10px;
@@ -520,6 +524,30 @@
     if (!el || el.readyState >= 3) return;
     try { el.load(); } catch (e) {}
   }
+  /* 整页第一次出声时，音频输出管线是冷的：播放时钟已经在走，解码器/声卡还没吐第一帧，
+     开头几十到几百毫秒会被吞。做法是先静音播 100ms 把管线热起来，再从 0 正式播。 */
+  var audioPrimed = false;
+  function primeAndPlay(a, onFail) {
+    function real() {
+      try { a.currentTime = 0; } catch (e) {}
+      var p = a.play();
+      if (p && p.catch) p.catch(function () { (onFail || stopAudio)(); });
+    }
+    if (audioPrimed) { real(); return; }
+    audioPrimed = true;
+    var vol = a.volume;
+    a.volume = 0;
+    var p0 = null;
+    try { p0 = a.play(); } catch (e) { a.volume = vol; real(); return; }
+    if (!p0 || !p0.then) { a.volume = vol; real(); return; }
+    p0.then(function () {
+      setTimeout(function () {
+        try { a.pause(); a.currentTime = 0; } catch (e) {}
+        a.volume = vol;
+        real();
+      }, 110);
+    })["catch"](function () { a.volume = vol; real(); });
+  }
   function playWhenReady(a, btn, onFail) {
     var started = false;
     function go() {
@@ -527,9 +555,7 @@
       started = true;
       if (currentAudio !== a) return;
       if (btn) btn.classList.remove("loading");
-      try { a.currentTime = 0; } catch (e) {}
-      var p = a.play();
-      if (p && p.catch) p.catch(function () { (onFail || stopAudio)(); });
+      primeAndPlay(a, onFail);
     }
     if (a.readyState >= 3) { go(); return; }
     if (btn) btn.classList.add("loading");
